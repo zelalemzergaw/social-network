@@ -1,0 +1,4 @@
+
+function getBadWords(params) {
+    
+}
