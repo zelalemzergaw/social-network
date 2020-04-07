@@ -30,6 +30,10 @@ function followUser(params) {
     
 }
 
+function getUserById(id) {
+    return User.findOne({_id:id});
+}
+
 module.exports = {
     createPost,
     updatePost,
