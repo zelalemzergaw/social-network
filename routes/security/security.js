@@ -1,5 +1,7 @@
 
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'),
+      path = require('path'),
+      { userService } = require(path.join(__dirname, '..','..','services'));
 
 exports.verifyToken  = (req, res, next) => {
     const token = req.header('access-token');
@@ -17,9 +19,13 @@ exports.verifyToken  = (req, res, next) => {
 }
 
 exports.authorize = (req, res, next) => {
-     if (req.user.role !== 'ADMIN') {
-          return res.status(401).json({ message: 'Unauthorized ADMIN'});
-     }  
+    userService.getUserById(req.userId)
+               .then(u => {
+                    if (u.role !== 'ADMIN') {
+                        return res.status(401).json({ message: 'Unauthorized ADMIN'});
+                    } 
+                    next(); 
+               }).catch(err => res.send(err));
+     
 
-     next();
 }

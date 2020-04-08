@@ -31,7 +31,7 @@ function followUser(params) {
 }
 
 function getUserById(id) {
-    return User.findOne({_id:id});
+    return User.findById({_id:id});
 }
 
 module.exports = {
@@ -41,7 +41,8 @@ module.exports = {
     createComment,
     updateComment,
     deleteComment,
-    followUser
+    followUser,
+    getUserById
 }
 
 
