@@ -77,6 +77,9 @@ const userSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "activated" // active, deactivated, deleted
+    },
+    resetToken: {
+        type: String
     }
 
 
