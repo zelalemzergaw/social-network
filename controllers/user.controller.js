@@ -1,13 +1,17 @@
 const
     path = require('path'),
     { userService } = require(path.join(__dirname, '..', 'services'));
-const multer = require('multer');
-const upload = multer({ dest: '/uploads/' });
+// const multer = require('multer');
+// const upload = multer({ dest: '/uploads/' });
 exports.createPost = (req, res, next) => {
-    // console.log("test create post");
+    //console.log("test create post");
     userService.createPost(req.userId, req.body);
     res.send('succesfully added');
 
+}
+exports.photoupload = () => {
+    userService.photopost();
+    //console.log(upload.single('avater'));
 }
 
 exports.getAllPosts = (req, res, next) => {

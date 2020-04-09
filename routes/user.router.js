@@ -4,7 +4,8 @@ const
     { userController } = require(path.join(__dirname, '..', 'controllers'));
 
 
-router.post("/create-post", userController.createPost);
+router.post("/create-post", userController.photoupload, userController.createPost);
+// console.log(userController.createPost);
 router.get("/posts", userController.getAllPosts);
 router.post("/updatepost", userController.updatepost);
 router.post("/deletePost", userController.deletepost);
