@@ -6,7 +6,7 @@ const upload = multer({ dest: '/uploads/' });
 exports.createPost = (req, res, next) => {
     // console.log("test create post");
     userService.createPost(req.userId, req.body);
-    res.send('hello');
+    res.send('succesfully added');
 
 }
 

@@ -32,13 +32,13 @@ const postSchema = new mongoose.Schema({
             type: mongoose.Types.ObjectId,
             ref: 'User'
         }
-            
+
     }],
     stuatus: {
-         type: String
+        type: String
     },
-          
-}, {timestamps: true});
+
+}, { timestamps: true });
 
 module.exports = mongoose.model('Post', postSchema);
 // {timestamps: true} ===> createdAt and updateAt
