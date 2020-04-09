@@ -3,33 +3,30 @@ const fs = require('fs'),
     util = require('util');
 
 
-
-const badWordService = (() => {
+module.exports = (() => {
     let listOfBadwords;
     const bad_word_path = path.join(__dirname, '..', '..', '/resources/bad_word', 'badWord.json');
-    // if (listOfBadwords === undefined) {
-    //     loadBadWord().then(bdWordList => {
-    //         listOfBadwords = bdWordList;
-
-    //     }).catch(err => console.log(err))
-    // }
-
     /**
-     * returns bad word list 
+     * gets and returns list of badwords 
+     * First time from file and for subsequent requests from memory
      */
     const getBadWordList = async() => {
-        if (listOfBadwords === undefined) {
-            await loadBadWord().then(bdWordList => {
-                listOfBadwords = bdWordList;
-
-            }).catch(err => console.log(err))
-
+            if (listOfBadwords === undefined) {
+                const readFile = util.promisify(fs.readFile);
+                const list = await readFile(bad_word_path, 'utf-8');
+                listOfBadwords = JSON.parse(list);
+            }
+            return listOfBadwords.badwords;
         }
-        return listOfBadwords.badWords;
-    }
-    const addBadWordToList = (bWord) => {
-            listOfBadwords.badWords.push(bWord);
-            saveBadWord(listOfBadwords).then(() => {}).catch(err => console.log(err))
+        /**
+         * adds new unique bad word 
+         * @param {a bad word to be added to list} bWord 
+         */
+    const addNewBadWord = (bWord) => {
+            if (listOfBadwords.badwords.indexOf(bWord) === -1) {
+                listOfBadwords.badwords.push(bWord);
+                saveBadWord(listOfBadwords).then(() => {}).catch(err => console.log(err))
+            }
 
         }
         /**
@@ -47,22 +44,24 @@ const badWordService = (() => {
          * @param {bad word to be removed from list} thisBadWord 
          */
     const removeBadWord = (thisBadWord) => {
-        let newBadWordList = listOfBadwords.badWords.find(word => word !== thisBadWord);
-        saveBadWord(newBadWordList).then(() => {
-            listOfBadwords.badWords = [];
-            listOfBadwords.badWords = [...newBadWordList];
+        let newBadWordList = listOfBadwords.badwords.filter(word => word !== thisBadWord);
+        let newObject = {
+            "badwords": newBadWordList
+        }
+        saveBadWord(newObject).then(() => {
+            listOfBadwords.badwords = [];
+            listOfBadwords.badwords = [...newBadWordList];
+            console.log(listOfBadwords)
         }).catch(err => console.log(err))
 
 
     }
 
-    async function loadBadWord() {
-        const readFile = util.promisify(fs.readFile);
-        const list = await readFile(bad_word_path, 'utf-8');
-        return JSON.parse(list);
-    }
-
-
+    getBadWordList();
+    /**
+     * Saves to file 
+     * @param {data to be saved (JSON file of bad word)} data 
+     */
     async function saveBadWord(data) {
         let json = JSON.stringify(data);
         const writeFile = util.promisify(fs.writeFile);
@@ -70,15 +69,12 @@ const badWordService = (() => {
     }
 
     return {
+        addNewBadWord,
         getBadWordList,
-        addBadWordToList,
         updateBadWordList,
         removeBadWord
 
-    }
+    };
 
 
 })();
-
-
-module.exports = badWordService
