@@ -1,6 +1,6 @@
-const
-    path = require('path')
-router = require('express').Router(), { adminController } = require(path.join(__dirname, '..', 'controllers'));
+const path = require('path'),
+    router = require('express').Router(),
+    { adminController } = require(path.join(__dirname, '..', 'controllers'));
 
 router.post('/create-ad', adminController.createAd);
 router.get('/get-bad-words', adminController.getBadWords);
