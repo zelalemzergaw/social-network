@@ -4,9 +4,9 @@ const
     { userController } = require(path.join(__dirname, '..', 'controllers'));
 
 
-router.post("/create-post", userController.photoupload, userController.createPost);
-// console.log(userController.createPost);
-router.get("/posts", userController.getAllPosts);
+router.post("/create-post", userController.createPost);
+router.get("/posts", userController.getAll);
+router.get("/updateget/:p_id", userController.updatepostget);
 router.post("/updatepost", userController.updatepost);
 router.post("/deletePost", userController.deletepost);
 router.post("/createComment", userController.createcomment);

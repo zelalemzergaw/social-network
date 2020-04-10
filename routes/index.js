@@ -1,4 +1,4 @@
-const 
+const
     path = require('path'),
     adminRoute = require(path.join(__dirname, 'admin.route')),
     authRoute = require(path.join(__dirname, 'auth.router')),
@@ -13,5 +13,5 @@ function initRoutes(server) {
 }
 
 module.exports = {
-  initRoutes
+    initRoutes
 }
