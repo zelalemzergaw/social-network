@@ -38,14 +38,16 @@ exports.deletepost = async(req, res, next) => {
     res.json({ message: "successfully deleted" });
 
 }
-exports.createcomment = (req, res, next) => {
-    //userService.createPost(req.userId, req.body);
-    console.log("test3");
+exports.createcomment = async(req, res, next) => {
+    await userService.createComment(req.params.c_Id, req.userId, req.body);
+    //console.log("comment  uplading ....");
+    console.log(req.userId, req.postId, req.body);
+    res.json({ message: "comment uploaded successfully" });
 
 }
 exports.updatecomment = (req, res, next) => {
     //userService.createPost(req.userId, req.body);
-    console.log("test3");
+
 
 }
 exports.deletecomment = (req, res, next) => {

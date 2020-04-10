@@ -30,12 +30,9 @@ async function updatePostGet(id) {
 
 async function updatePost(data) {
     //console.log('update working......');
-    // const post = await Post.findById({ postId: _id });
+
     await Post.updateOne({ _id: data._id }, {
         $set: { title: data.title, description: data.description, images: data.image }
-
-        // description: data.description,
-        // image: data.image
 
     });
 
@@ -54,8 +51,18 @@ async function getPost(p_id) {
 }
 
 
+async function createComment(p_id, data) {
+    //console.log('update working......');
+    await Post.updateOne({ _id: p_id }, {
+        $push: {
+            comments: {
 
-function createComment() {
+                text: data.text,
+                commentedBy: uId
+
+            }
+        }
+    });
 
 }
 
