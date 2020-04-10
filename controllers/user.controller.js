@@ -9,25 +9,26 @@ exports.createPost = (req, res, next) => {
 
 }
 
-exports.getAll = (req, res, next) => {
-    // console.log(req.userId);
-    userService.getAllPosts();
+exports.getAll = async(req, res, next) => {
+    console.log(req.userId);
+    res.json(await userService.getAllPosts());
     //res.json([{ titile: "post one", description: "hello this is my first post" }]);
 
 
 }
 
-exports.updatepostget = (req, res, next) => {
-    console.log("test create post");
-    //userService.updatePostGet(req.params.p_id);
+exports.updatepostget = async(req, res, next) => {
+    console.log("test create post", req.params.p_id);
+    res.json(await userService.updatePostGet(req.params.p_id));
     // res.send('succesfully added');
 
 
 }
-exports.updatepost = (req, res, next) => {
+exports.updatepost = async(req, res, next) => {
     // userService.updatepost(req.userId, req.body);
-    // console.log("test2");
-    userService.updatePost(req.body.p_id, req.body);
+    console.log("test2");
+    await userService.updatePost(req.body);
+    res.json({ message: "successfully updated" });
 
 }
 exports.deletepost = (req, res, next) => {

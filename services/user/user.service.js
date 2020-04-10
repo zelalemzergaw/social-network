@@ -4,8 +4,8 @@ const
 
 
 
-function getAllPosts() {
-    return Post.find();
+async function getAllPosts() {
+    return await Post.find();
     //console.log("test1");
 
 }
@@ -23,14 +23,16 @@ async function createPost(userId, data) {
 }
 
 async function updatePostGet(id) {
-    return Post.findById(_id);
+    return await Post.findById({
+        _id: id
+    });
 }
 
-async function updatePost(pId, data) {
+async function updatePost(data) {
     //console.log('update working......');
     // const post = await Post.findById({ postId: _id });
-    await Post.updateOne({ _id: pId }, {
-        $set: { tetle: data.title, description: data.description, images: data.image }
+    await Post.updateOne({ _id: data._id }, {
+        $set: { title: data.title, description: data.description, images: data.image }
 
         // description: data.description,
         // image: data.image
