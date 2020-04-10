@@ -26,15 +26,16 @@ exports.updatepostget = async(req, res, next) => {
 }
 exports.updatepost = async(req, res, next) => {
     // userService.updatepost(req.userId, req.body);
-    console.log("test2");
+    //console.log("test2");
     await userService.updatePost(req.body);
     res.json({ message: "successfully updated" });
 
 }
-exports.deletepost = (req, res, next) => {
+exports.deletepost = async(req, res, next) => {
     //userService.createPost(req.userId, req.body);
-    // console.log("test3");
-
+    console.log("test3");
+    await userService.deletePost(req.params.d_id);
+    res.json({ message: "successfully deleted" });
 
 }
 exports.createcomment = (req, res, next) => {

@@ -42,12 +42,15 @@ async function updatePost(data) {
 
 }
 
-function deletePost() {
+async function deletePost(pId) {
+    await Post.findByIdAndRemove({
+        _id: pId
 
+    });
 }
 
-function getPost(p_id) {
-    return Post.findById(p_id);
+async function getPost(p_id) {
+    return await Post.findById(p_id);
 }
 
 

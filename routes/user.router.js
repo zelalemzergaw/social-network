@@ -8,7 +8,7 @@ router.post("/create-post", userController.createPost);
 router.get("/posts", userController.getAll);
 router.get("/posts/:p_id", userController.updatepostget);
 router.post("/updatepost", userController.updatepost);
-router.post("/deletePost", userController.deletepost);
+router.post("/deletePost/:d_id", userController.deletepost);
 router.post("/createComment", userController.createcomment);
 router.post("/updateComment", userController.updatecomment);
 router.post("/deleteComment", userController.deletecomment);
