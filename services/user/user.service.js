@@ -30,12 +30,10 @@ async function updatePostGet(id) {
 
 async function updatePost(data) {
     //console.log('update working......');
-
     await Post.updateOne({ _id: data._id }, {
         $set: { title: data.title, description: data.description, images: data.image }
 
     });
-
 
 }
 
@@ -51,7 +49,7 @@ async function getPost(p_id) {
 }
 
 
-async function createComment(p_id, data) {
+async function createComment(p_id, uId, data) {
     //console.log('update working......');
     await Post.updateOne({ _id: p_id }, {
         $push: {
@@ -66,12 +64,26 @@ async function createComment(p_id, data) {
 
 }
 
-function updateComment(params) {
-
+async function updateCommentGet(id) {
+    return await Post.findById({
+        _id: id
+    });
 }
 
-function deleteComment(params) {
+async function updateComment(data) {
+    await Post.updateOne({ _id: data._id }, {
+        // $set: {
+        //     comments.$.text: data.text
+        // }
 
+    });
+}
+
+async function deleteComment(params) {
+    await Post.findByIdAndRemove({
+        _id: params
+
+    });
 }
 
 function followUser(params) {
@@ -95,5 +107,6 @@ module.exports = {
     followUser,
     getPost,
     getAllPosts,
-    updatePostGet
+    updatePostGet,
+    updateCommentGet
 }
