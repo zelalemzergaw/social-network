@@ -31,7 +31,19 @@ exports.forgotPassword = (req, res, next) => {
     authService.forgotPassword(req.body.email).then(r => {
         res.json({ message: "Reset email has sent to you" });
     }).catch(err => res.send(err));
+        .status(500)
+        .json({ message: 'Email is required' });
+        }
+    authService.forgotPassword(req.body.email).then(r => {
+        res.json({message: "Reset email has sent to you"});
+    }).catch(err => res.send(err));
+    
+}
 
+exports.resetPassword  = (req, res, next) => {
+     authService.resetPassword(req.body.token, req.body.newPassword).then(r => {
+         res.json({message: "You have successfully rested your password"});
+     }).catch(err => res.send(err));
 }
 
 exports.resetPassword = (req, res, next) => {

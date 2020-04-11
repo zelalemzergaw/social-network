@@ -94,8 +94,9 @@ function getUserById(id) {
     return User.findOne({ _id: id });
 }
 
-
-
+function getUserById(id) {
+    return User.findById({_id:id});
+}
 
 module.exports = {
     createPost,
@@ -110,3 +111,10 @@ module.exports = {
     updatePostGet,
     updateCommentGet
 }
+    getUserById
+}
+
+
+
+
+
