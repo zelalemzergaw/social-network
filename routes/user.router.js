@@ -13,6 +13,7 @@ router.post("/createComment/:c_Id", userController.createcomment);
 router.get("/updateComment/:p_Id", userController.updatecommentget);
 router.post("/updateComment", userController.updatecomment);
 router.post("/deleteComment/:d_cid", userController.deletecomment);
+router.post("/search-post", userController.searchposts);
 
 
 module.exports = router;

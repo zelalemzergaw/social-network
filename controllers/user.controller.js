@@ -67,3 +67,8 @@ exports.deletecomment = async(req, res, next) => {
     console.log("test3");
 
 }
+exports.searchposts = (req, res, next) => {
+    let results = userService.getSearchResults(req.userId, req.body);
+    res.json({ searchResult: result });
+
+}
