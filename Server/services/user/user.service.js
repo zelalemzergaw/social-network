@@ -91,14 +91,22 @@ async function deleteComment(params) {
 
 function followUser(params) {
 
-}
+} 
 
-function getUserById(id) {
-    return User.findOne({ _id: id });
-}
+async function updateUser(id, data) {
+    await User.updateOne({ _id: id }, {
+        $set: { firstname: data.firstname,
+             lastname: data.lastname,
+             birthday: data.birthday,
+             location: data.location,
+             email: data.email
+             }
 
-function getUserById(id) {
-    return User.findById({ _id: id });
+    });
+
+}
+async function getUserById(id) {
+    return await User.findById({ _id: id });
 }
 
 /**
