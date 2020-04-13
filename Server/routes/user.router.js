@@ -14,6 +14,8 @@ router.get("/updateComment/:p_Id", userController.updatecommentget);
 router.post("/updateComment", userController.updatecomment);
 router.post("/deleteComment/:d_cid", userController.deletecomment);
 router.post("/search-post", userController.searchposts);
+router.get("/:id", userController.getUser);
+router.post('/:id', userController.updateUser)
 
 
 module.exports = router;

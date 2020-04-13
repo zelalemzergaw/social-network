@@ -2,6 +2,16 @@ const
     path = require('path'),
     { userService } = require(path.join(__dirname, '..', 'services'));
 
+exports.getUser = async (req, res, next) => {
+    res.json(await userService.getUserById(req.params.id));
+}
+
+exports.updateUser = async (req, res, next) =>{
+
+    await userService.updateUser(req.params.id, req.data);
+    res.json({message: "successfully updated"});
+}
+
 exports.createPost = (req, res, next) => {
     //console.log("test create post");
     userService.createPost(req.userId, req.body);
