@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
@@ -27,21 +28,19 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserHomeComponent } from './user/user-home/user-home.component';
-import { FilePondModule, registerPlugin } from 'ngx-filepond';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import { LeftComponent } from './user/user-home/left/left.component';
 import { RightComponent } from './user/user-home/right/right.component';
 import { UserFeedComponent } from './user/user-home/user-feed/user-feed.component';
 import { ProfileComponent } from './user/user-home/profile/profile.component';
 import { ExploreComponent } from './user/user-home/explore/explore.component';
 import { PostComponent } from './user/user-home/post/post.component';
-registerPlugin(FilePondPluginFileValidateType);
 
 @NgModule({
   imports: [
     CommonModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     BsDropdownModule.forRoot(),
     ProgressbarModule.forRoot(),

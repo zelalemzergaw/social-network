@@ -16,12 +16,13 @@ import { UserHomeComponent } from './pages/user/user-home/user-home.component';
 import { UserFeedComponent } from './pages/user/user-home/user-feed/user-feed.component';
 import { ProfileComponent } from './pages/user/user-home/profile/profile.component';
 import { ExploreComponent } from './pages/user/user-home/explore/explore.component';
-
+import { AuthGuard } from "./guards"
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
   {
      path: "home",
      component: UserHomeComponent,
+     canActivate: [AuthGuard], 
      children: [
        {
          path: 'profile',

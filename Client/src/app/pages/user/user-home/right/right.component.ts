@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from "../../../../services";
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-right',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RightComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    console.log(this.authService.getCurrentUser());
+     this.authService.logout();
+     this.router.navigate(['/login']);
   }
 
 }
