@@ -3,7 +3,7 @@
           <div class="col-lg-5 col-md-6  ">
               <h2 style="color: black; margin-left: 20px">Register</h2>
               <div class="card-body">
-                <form class="form">
+                <form class="form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
 
                   <div class="input-group" [ngClass]="{ 'input-group-focus': focus === true }">
                     <div class="input-group-prepend">
@@ -12,6 +12,7 @@
                       </div>
                     </div>
                     <input
+                      formControlName="username"
                       class="form-control"
                       placeholder="User name"
                       type="text"
@@ -26,6 +27,7 @@
                       </div>
                     </div>
                     <input
+                      formControlName="firstname"
                       class="form-control"
                       placeholder="First name"
                       type="text"
@@ -41,6 +43,7 @@
                         </div>
                     </div>
                     <input
+                      formControlName="lastname"
                       class="form-control"
                       placeholder="Last name"
                       type="text"
@@ -54,6 +57,7 @@
                         </div>
                     </div>
                     <input type="text"
+                       formControlName="birthdate"
                        placeholder="Birthdate"
                        class="form-control"
                        bsDatepicker
@@ -67,8 +71,25 @@
                       </div>
                     </div>
                     <input
+                      formControlName="email"
                       class="form-control"
                       placeholder="Email"
+                      type="text"
+                      (focus)="focus1 = true"
+                      (blur)="focus1 = false"
+                    />
+                  </div>
+
+                  <div class="input-group" [ngClass]="{ 'input-group-focus': focus1 === true }">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="tim-icons icon-home-85"> </i>
+                      </div>
+                    </div>
+                    <input
+                      formControlName="location"
+                      class="form-control"
+                      placeholder="Location"
                       type="text"
                       (focus)="focus1 = true"
                       (blur)="focus1 = false"
@@ -85,6 +106,7 @@
                       </div>
                     </div>
                     <input
+                    formControlName="password"
                       class="form-control"
                       placeholder="Password"
                       type="password"
@@ -100,7 +122,8 @@
                       <a href="javascript:void(0)"> terms and conditions </a> .
                     </label>
                   </div> -->
-                  <button class="btn btn-primary btn-neutral">Signup</button>
+                  <button [disabled]="loading" class="btn btn-primary btn-neutral" >Signup</button>
+                  <img *ngIf="loading" class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                 </form>
                 <a class="nav-link" [routerLink]="['/login']"> Login </a>
               </div>
