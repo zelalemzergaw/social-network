@@ -64,7 +64,23 @@ function activateAnAccount(userId) {
     }
 
 }
+async function addAdvertisement(id,advData) {
 
+    const advertisement = new Ad({
+       text : advData.text,
+       link:advData.link,
+       postby: advData.postby,
+       datepublished:advData.datepublished,
+       targetedUser: advData.age,
+       targetedUser: advData.location
+    });
+        
+     let ad_ =   await advertisement.save();
+     
+     await userService.updateUser(id, {adId:ad_._id});
+    
+    
+    }
 module.exports = {
     publishAd,
     editAd,
@@ -72,6 +88,7 @@ module.exports = {
     addBadWord,
     getBadWords,
     removeBadWord,
-    updateBadWordList
+    updateBadWordList,
+    addAdvertisement
 
 }
