@@ -81,6 +81,23 @@ async function addAdvertisement(id,advData) {
     
     
     }
+
+    async function editAdvertisement(dataUpdate) {
+   
+        await  Ad.updateOne({_id:dataUpdate._id},{
+           $set:{
+             text:dataUpdate.text,
+            link:dataUpdate.link,
+            postby: dataUpdate.postby,
+            datepublished:dataUpdate.datepublished,
+            targetedUser: dataUpdate.age,
+            targetedUser: dataUpdate.location
+            
+           }});
+        
+          
+      }
+      
 module.exports = {
     publishAd,
     editAd,
