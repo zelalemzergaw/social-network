@@ -102,6 +102,11 @@ async function addAdvertisement(id,advData) {
         return await  Ad.findById({_id: id});
         
         }
+        async function deleteAd(id) {
+            console.log(id);
+          await  Ad.findByIdAndRemove({_id: id}) ;
+        
+        }
 
 module.exports = {
     publishAd,
@@ -111,6 +116,9 @@ module.exports = {
     getBadWords,
     removeBadWord,
     updateBadWordList,
-    addAdvertisement
+    addAdvertisement,
+    getAdvertisement,
+    editAdvertisement,
+    deleteAd
 
 }

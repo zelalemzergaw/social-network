@@ -55,3 +55,11 @@ exports.createAd = (req, res, next) => {
      
         }
       }
+
+      exports.deleteAdv = (req,res,next) => {
+        adminService.deleteAd(req.params.id)
+        .then(result => {
+           res.json({ message: "You have successfully deleted advertisement"});
+          //res.redirect(console.log('You have successfully delete advertisement'))
+        }).catch(err => console.log(err));
+    }
