@@ -82,3 +82,9 @@ exports.searchposts = (req, res, next) => {
     res.json({ searchResult: result });
 
 }
+
+exports.followuser=(req, res, next) => {
+    console.log(req.params.uid);
+    userService.followUser(req.params.uid);
+    res.json({ message: "Successful following" })
+}
