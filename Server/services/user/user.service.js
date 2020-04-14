@@ -164,7 +164,11 @@ function getSearchResults(this_User_id, search_Phrase) {
         .populate('postedBy')
         .execPopuate();
 }
+async function updateUserAdvt(id,update){
+    console.log(id,update ,'id print');
+    await User.updateOne({_id:id},{advetisements: {$push: update}});
 
+}
 module.exports = {
     createPost,
     updatePost,
@@ -178,5 +182,6 @@ module.exports = {
     updatePostGet,
     updateCommentGet,
     getUserById,
-    getSearchResults
+    getSearchResults,
+    updateUserAdvt
 }

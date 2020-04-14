@@ -98,6 +98,11 @@ async function addAdvertisement(id,advData) {
           
       }
       
+      async function getAdvertisement(id) {
+        return await  Ad.findById({_id: id});
+        
+        }
+
 module.exports = {
     publishAd,
     editAd,

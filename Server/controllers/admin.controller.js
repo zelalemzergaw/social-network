@@ -35,3 +35,23 @@ exports.createAd = (req, res, next) => {
         res.json({ message: "You have successfully created advertisement"});
     }).catch(err => res.send(err));
     }
+
+    exports.editAdvertisement = async (req,res,next) => {
+     
+        await adminService.editAdvertisement(req.body)
+         .then((result) => {
+             res.json({message:"you have successfully edited"});
+        res.redirect('/create-ad')
+    
+      }).catch(err => console.log(err));
+     }
+
+     exports.getAdv =async (req,res,next) => {
+     try{
+        return res.json( await  adminService.getAdvertisement(req.params.id))
+        } catch(err){
+            return res.json({error: err})
+       
+     
+        }
+      }

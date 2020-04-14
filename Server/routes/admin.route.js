@@ -9,5 +9,6 @@ router.post('/delete-bad-word', adminController.removeBadWord);
 router.post('/update-bad-word', adminController.updateBadWord);
 router.post('/create-ad', adminController.createAd);
 router.post('/edit-ad', adminController.editAdvertisement);
+router.get('/ads/:id', adminController.getAdv);
 
 module.exports = router;
