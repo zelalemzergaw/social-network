@@ -170,6 +170,12 @@ async function updateUserAdvt(id,update){
 
 }
 
+/**
+ * 
+ * @param {is the id of the user who is making the followers and Following} this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
 async function followUser(id,uId) {
     await User.updateOne({ _id: id }, {
         $addToSet: {
@@ -190,6 +196,27 @@ async function followUser(id,uId) {
     });
 }
 
+/**
+ * 
+ * @param {is the id of the user who is making the followers and unFollow} this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
+async function unFollowerUser(id,uId){
+    await User.findOneUpdate({_id:id},{
+        $pull:{
+            following: {
+                followingID: id
+        }}
+    })
+    await User.findOneUpdate({_id:uId},{
+        $pull:{
+            followers: {
+                followerID: uId
+        }}
+    })
+}
+
 module.exports = {
     createPost,
     updatePost,
@@ -205,5 +232,6 @@ module.exports = {
     getUserById,
     getSearchResults,
     updateUserAdvt,
-    followUser
+    followUser,
+    unFollowerUser
 }

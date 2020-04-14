@@ -18,6 +18,7 @@ router.get("/:id", userController.getUser);
 router.post('/:id', userController.updateUser)
 router.post("/follow/:uid", userController.followuser );
 router.post("/posts", userController.getAllPosts);
+router.post("/Unfollow/:uid", userController.unFollowuser );
 
 
 module.exports = router;
