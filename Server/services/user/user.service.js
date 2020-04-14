@@ -169,6 +169,27 @@ async function updateUserAdvt(id,update){
     await User.updateOne({_id:id},{advetisements: {$push: update}});
 
 }
+
+async function followUser(id,uId) {
+    await User.updateOne({ _id: id }, {
+        $addToSet: {
+            following: {
+                followerID: uId
+
+            }
+        }
+    })
+
+    await User.updateOne({ _id: uId }, {
+        $addToSet: {
+            followers: {
+                followerID: id
+
+            }
+        }
+    });
+}
+
 module.exports = {
     createPost,
     updatePost,
@@ -183,5 +204,6 @@ module.exports = {
     updateCommentGet,
     getUserById,
     getSearchResults,
-    updateUserAdvt
+    updateUserAdvt,
+    followUser
 }
