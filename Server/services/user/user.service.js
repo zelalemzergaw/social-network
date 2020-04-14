@@ -217,6 +217,27 @@ async function unFollowerUser(id,uId){
     })
 }
 
+/**
+ * 
+ * @param {is the id of the user who is making the get followers } this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
+async function getFollers(userId){
+     await User.findById({_id: userId});
+   
+   }
+
+   /**
+ * 
+ * @param {is the id of the user who is making the get followering } this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
+async function getFollowing(id){
+      await User.findById({_id:id});
+}
+
 module.exports = {
     createPost,
     updatePost,
@@ -233,5 +254,8 @@ module.exports = {
     getSearchResults,
     updateUserAdvt,
     followUser,
-    unFollowerUser
+    unFollowerUser,
+    getFollowing,
+    getFollers
+    
 }

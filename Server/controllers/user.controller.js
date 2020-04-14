@@ -101,3 +101,28 @@ exports.getAllPosts = (req, res, next) => {
 
     res.json([{titile: "user one", description: "hello this is my first user"}]);
 }
+
+exports.getFollowers = (req,res,next) => {
+    try{
+        
+        let result = userService.getFollowers(req.params.userId)
+       return res.json({data:result})
+
+    } catch(err){
+        return res.json({error: err})
+    }
+    
+    }
+
+exports.getFollowing = (req,res,next) => {
+    try{
+
+        let result =    userService.getFollowing(req.params.id)
+        return res.json({data:result})
+
+    } catch(err){
+        return res.json({error: err})
+    }
+    
+   
+        }
