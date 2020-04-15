@@ -15,7 +15,6 @@ export class RightComponent implements OnInit {
   }
 
   logout() {
-    console.log(this.authService.getCurrentUser());
      this.authService.logout();
      this.router.navigate(['/login']);
   }

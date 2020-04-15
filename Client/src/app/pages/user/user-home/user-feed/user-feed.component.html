@@ -24,7 +24,6 @@
                 </image-upload>
               </form>
 
-
         </div>
        <div *ngIf="post_status">
         <alert class="alert-with-icon" [type]="'success'"  [dismissible]="true">
@@ -43,4 +42,22 @@
   </div>
 
 </div>
-<app-post></app-post>
+<div class="feeds" *ngFor="let feed of feeds "> 
+  <div class="card post">
+    <div class="card-body">
+      <div class="pic_username">
+            <img src="assets/img/mike.jpg" width=30 class=" rounded-circle">
+            <span >{{ feed.postedBy.username}}</span>
+      </div>
+      <div class="post-content">
+           <p style="padding: 2%"> {{ feed.description }}
+          </p>
+           <img width="100%" style="object-fit: cover; max-height: 400px;" class="img-fluid rounded shadow" [src]="feed.images[0]" />
+      </div>
+    </div>
+    <div class="card-footer row">
+           <p class="col-sm-10"><i class="fa fa-thumbs-up" aria-hidden="true"></i>4</p>
+           <p class="col-sm-2"><i class="fa fa-comment" aria-hidden="true"></i>4</p>
+    </div>
+  </div>
+</div>

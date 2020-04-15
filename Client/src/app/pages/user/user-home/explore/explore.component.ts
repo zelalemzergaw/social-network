@@ -14,7 +14,6 @@ export class ExploreComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.userService.getCurrrentUser()._id, "ISDSFD")
      this.allUsers = this.userService.getAllUsers().filter(u => u._id !== this.userService.getCurrrentUser()._id);
   }
 

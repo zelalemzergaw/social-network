@@ -48,17 +48,24 @@ export class UserFeedComponent implements OnInit {
       "border-radius": "0 0 25px 25px",
     }
   }
-
+  feeds = [];
   constructor(private userService: UserService) {
     console.log("constructor of Feed component", this.IMG_UPLOD_URL);
 
   }
   ngOnInit(): void {
     this.initPost();
+    this.userService.fetchFeed().pipe(first())
+        .subscribe(respose => {
+          this.feeds = respose.result;
+          console.log("WOOOW my feeds", respose.result);
+        }, err => {
+          console.log(err);
+        })
   }
 
   onUploadFinished(file: FileHolder) {
-    this.post.images.push(this.API_URL + file.serverResponse.response.body); 
+    this.post.images.push(this.API_URL + "/"+file.serverResponse.response.body); 
   }
 
   createPost(){
@@ -67,7 +74,8 @@ export class UserFeedComponent implements OnInit {
            if(response.status === 200) {
              this.post_status = true;
            }
-           console.log("RESPONSE", response);
+           this.post.postedBy = this.userService.getCurrrentUser();
+           this.feeds.unshift(this.post);
          })
     console.log("NEW", this.post);
 
@@ -77,6 +85,8 @@ export class UserFeedComponent implements OnInit {
     console.log("FEED",this.userService.getCurrrentUser());
     this.post.postedBy = this.userService.getCurrrentUser()._id;
   }
+
+
 
 
 

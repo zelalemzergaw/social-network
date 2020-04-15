@@ -3,7 +3,8 @@ const
     router = require('express').Router(),
     { userController } = require(path.join(__dirname, '..', 'controllers'));
 
-router.post("/create-post",(req, res, next) => { console.log("THNKD", req.body); next()}, userController.createPost);
+router.get('/feetch-feeds',(req, res, next) => {console.log("what========jhjjjjkjhjj"); next()}, userController.fetchFeed);
+router.post("/create-post",userController.createPost);
 router.get("/posts", userController.getAll);
 router.get("/posts/:p_Id", userController.updatepostget);
 router.post("/updatepost", userController.updatepost);
@@ -14,7 +15,7 @@ router.post("/updateComment", userController.updatecomment);
 router.post("/deleteComment/:d_cid", userController.deletecomment);
 router.post("/search-post", userController.searchposts);
 router.post('/:id', userController.updateUser)
-router.post("/follow/:uid", userController.followuser );
+router.post("/follow/:uid", userController.followUser );
 router.post("/posts", userController.getAllPosts);
 router.post("/Unfollow/:uid", userController.unFollowuser );
 router.get("following/:id", userController.getFollowing);

@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 //     res.setHeader('Access-Control-Allow-Credentials', true);
 //     next();
 //   });
-
+app.use(express.static(path.join(__dirname, "resources/images")));
 initRoutes(app);
 
 // catch 404 and forward to error handler

@@ -6,8 +6,8 @@
                 <span >{{ user.firstname }}  {{ user.lastname}}</span>
           </div>
           <div class="post-content">
-            <!-- <button  *ngIf="user." (click)="unfollow(user._id)" class="btn btn-sm btn-primary btn-neutral" style="float:right">Unfollow</button> -->
-            <button (click)="follow(user._id)" class="btn btn-sm btn-primary btn-neutral" style="float:right">follow</button>
+            <button  *ngIf="isFollwed(user._id)" (click)="unfollow(user._id)" class="btn btn-sm btn-primary btn-neutral" style="float:right">Unfollow</button>
+            <button *ngIf="!isFollwed(user._id)" (click)="follow(user._id)" class="btn btn-sm btn-primary btn-neutral" style="float:right">follow</button>
           </div>
         </div>
       </div>

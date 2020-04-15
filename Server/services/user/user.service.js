@@ -89,9 +89,6 @@ async function deleteComment(params) {
     });
 }
 
-function followUser(params) {
-
-} 
 
 async function updateUser(id, data) {
     await User.updateOne({ _id: id }, {
@@ -187,7 +184,6 @@ async function followUser(id,uId) {
         $addToSet: {
             following: {
                 followerID: uId
-
             }
         }
     })
@@ -200,6 +196,8 @@ async function followUser(id,uId) {
             }
         }
     });
+
+    return new ApiResponse(200, "success", {});
 }
 
 /**
@@ -229,10 +227,20 @@ async function unFollowerUser(id,uId){
  * @param {is action click into the follow button} 
  */
 
-async function getFollers(userId){
-     await User.findById({_id: userId});
-   
-   }
+async function _getUser(userId){
+     return await User.findById({_id: userId});
+}
+
+async function fetchFeed(userId) {
+    let user = await _getUser(userId);
+    let followings = user.following;
+    followings = followings.map(f => f.followerID);
+    followings.push(userId);
+    let result = await Post.find({postedBy: { $in: followings}})
+                           .populate("postedBy")
+                           .sort({ updatedAt: "desc"});
+    return new ApiResponse(200, "success", result);
+}
 
    /**
  * 
@@ -259,10 +267,9 @@ module.exports = {
     getUserById,
     getSearchResults,
     updateUserAdvt,
-    followUser,
     unFollowerUser,
     getFollowing,
-    getFollers,
-    getAllUsers
+    getAllUsers,
+    fetchFeed
     
 }

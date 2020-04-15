@@ -41,7 +41,12 @@ export class UserService {
     return this.allUsers;
   }
 
-  
+  follow(id) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/follow/"+ id, {});
+  }
+  fetchFeed() {
+    return this.http.get<ApiResponse>(environment.API_URL + "/api/user/feetch-feeds");
+  }
   
 }
 

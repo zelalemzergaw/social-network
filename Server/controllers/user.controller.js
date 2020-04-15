@@ -5,9 +5,7 @@ const
 
 exports.getUser = async (req, res, next) => {
     try{
-        console.log("calling")
         let response = await userService.getUserById(req.params.id);
-        console.log(response);
         res.status(response.status).json(response);
     }
     catch(err) {
@@ -49,7 +47,6 @@ exports.createPost = async (req, res, next) => {
 }
 
 exports.getAll = async(req, res, next) => {
-    console.log(req.userId);
     res.json(await userService.getAllPosts());
     //res.json([{ titile: "post one", description: "hello this is my first post" }]);
 
@@ -57,7 +54,6 @@ exports.getAll = async(req, res, next) => {
 }
 
 exports.updatepostget = async(req, res, next) => {
-    console.log("test create post", req.params.p_Id);
     res.json(await userService.updatePostGet(req.params.p_Id));
     // res.send('succesfully added');
 
@@ -80,7 +76,6 @@ exports.deletepost = async(req, res, next) => {
 exports.createcomment = async(req, res, next) => {
     await userService.createComment(req.params.c_Id, req.userId, req.body);
     // console.log("comment  uplading ....");
-    console.log(req.userId, req.postId, req.body);
     res.json({ message: "comment uploaded successfully" });
 
 }
@@ -95,7 +90,6 @@ exports.updatecomment = async(req, res, next) => {
 }
 exports.updatecommentget = async(req, res, next) => {
     res.json(await userService.updateCommentGet(req.params.p_Id));
-    console.log("test create post", req.params.p_id);
 
 }
 exports.deletecomment = async(req, res, next) => {
@@ -103,7 +97,6 @@ exports.deletecomment = async(req, res, next) => {
     await userService.deleteComment(req.params.d_cid);
     res.json({ message: "comment successfully deleted" });
 
-    console.log("test3");
 
 }
 exports.searchposts = (req, res, next) => {
@@ -112,10 +105,28 @@ exports.searchposts = (req, res, next) => {
 
 }
 
-exports.followuser=(req, res, next) => {
-    console.log(req.params.uid);
-    userService.followUser(req.params.uid);
-    res.json({ message: "Successful following" })
+exports.followUser= async(req, res, next) => {
+    try{
+        let response = await userService.followUser(req.userId, req.params.uid);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+}
+
+exports.fetchFeed =  async(req, res, next) => {
+    console.log(req.userId, "IS MY ID");
+
+    try{
+        let response = await userService.fetchFeed(req.userId);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
 exports.unFollowuser=(req, res, next) => {
@@ -131,8 +142,8 @@ exports.getAllPosts = (req, res, next) => {
 exports.getFollowers = (req,res,next) => {
     try{
         
-        let result = userService.getFollowers(req.params.userId)
-       return res.json({data:result})
+        // let result = userService.getFollowers(req.params.userId)
+    //    return res.json({data:result})
 
     } catch(err){
         return res.json({error: err})
