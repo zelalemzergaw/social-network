@@ -268,6 +268,13 @@ async function fetchFeed(userId) {
     return new ApiResponse(200, "success", result);
 }
 
+async function getPosts(userId) {
+    let result = await Post.find({postedBy: userId})
+                           .populate("comments.commentedBy")
+                           .sort({ createdAt: "desc"});
+    return new ApiResponse(200, "success", result);
+}
+
    /**
  * 
  * @param {is the id of the user who is making the get followering } this_User_id 
@@ -298,6 +305,7 @@ module.exports = {
     unFollowerUser,
     getFollowing,
     getAllUsers,
-    fetchFeed
+    fetchFeed,
+    getPosts
     
 }

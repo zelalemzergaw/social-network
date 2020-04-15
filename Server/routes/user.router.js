@@ -3,9 +3,9 @@ const
     router = require('express').Router(),
     { userController } = require(path.join(__dirname, '..', 'controllers'));
 
-router.get('/feetch-feeds',(req, res, next) => {console.log("what========jhjjjjkjhjj"); next()}, userController.fetchFeed);
+router.get('/feetch-feeds', userController.fetchFeed);
 router.post("/create-post",userController.createPost);
-router.get("/posts", userController.getAll);
+router.get("/posts", userController.getPosts);
 router.get("/posts/:p_Id", userController.updatepostget);
 router.post("/updatepost", userController.updatepost);
 router.post("/deletePost/:d_id", userController.deletepost);

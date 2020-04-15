@@ -60,6 +60,9 @@ export class UserService {
     return this.http.post<ApiResponse>(environment.API_URL + "/api/user/unlike-post/" + postId, {});
   }
   
+  getPosts() {
+    return this.http.get<ApiResponse>(environment.API_URL + "/api/user/posts");
+  }
   
   
 }
