@@ -1,5 +1,6 @@
 const
     path = require('path'),
+    { ApiResponse } = require(path.join(__dirname, "..", "..", "util")),
     { Ad, User, Post } = require(path.join(__dirname, '..', '..', 'models')),
     { filterService } = require(path.join(__dirname, '..', 'shared'));
 
@@ -16,11 +17,23 @@ function deleteAd() {
 }
 
 function addBadWord(bWord) {
-    filterService.addNewBadWord(bWord);
+    try {
+        let result = filterService.addNewBadWord(bWord);
+        return new ApiResponse(200, "success", result);
+    } catch (error) {
+        console.log("FROM SERVICE.......", err);
+    }
+
 }
 
 async function getBadWords() {
-    return await filterService.getBadWordList();
+    try {
+        let result = await filterService.getBadWordList();
+        return new ApiResponse(200, "success", result);
+    } catch (err) {
+        console.log("FROM SERVICE.......", err);
+    }
+
 }
 
 function removeBadWord(thisBadWord) {
@@ -31,7 +44,13 @@ function removeBadWord(thisBadWord) {
  * @param {a complete JSON object of bad-words coming from the admin to replace existing one/ mass update} withThisList 
  */
 function updateBadWordList(withThisList) {
-    filterService.updateBadWordList(withThisList);
+    try {
+        let result = filterService.updateBadWordList(withThisList);
+        return new ApiResponse(200, "success", result);
+    } catch (err) {
+        console.log("FROM SERVICE.......", err);
+    }
+
 }
 /**
  * A function to review a post to be used by admin 
@@ -64,49 +83,50 @@ function activateAnAccount(userId) {
     }
 
 }
-async function addAdvertisement(id,advData) {
+async function addAdvertisement(id, advData) {
 
     const advertisement = new Ad({
-       text : advData.text,
-       link:advData.link,
-       postby: advData.postby,
-       datepublished:advData.datepublished,
-       targetedUser: advData.age,
-       targetedUser: advData.location
+        text: advData.text,
+        link: advData.link,
+        postby: advData.postby,
+        datepublished: advData.datepublished,
+        targetedUser: advData.age,
+        targetedUser: advData.location
     });
-        
-     let ad_ =   await advertisement.save();
-     
-     await userService.updateUser(id, {adId:ad_._id});
-    
-    
-    }
 
-    async function editAdvertisement(dataUpdate) {
-   
-        await  Ad.updateOne({_id:dataUpdate._id},{
-           $set:{
-             text:dataUpdate.text,
-            link:dataUpdate.link,
+    let ad_ = await advertisement.save();
+
+    await userService.updateUser(id, { adId: ad_._id });
+
+
+}
+
+async function editAdvertisement(dataUpdate) {
+
+    await Ad.updateOne({ _id: dataUpdate._id }, {
+        $set: {
+            text: dataUpdate.text,
+            link: dataUpdate.link,
             postby: dataUpdate.postby,
-            datepublished:dataUpdate.datepublished,
+            datepublished: dataUpdate.datepublished,
             targetedUser: dataUpdate.age,
             targetedUser: dataUpdate.location
-            
-           }});
-        
-          
-      }
-      
-      async function getAdvertisement(id) {
-        return await  Ad.findById({_id: id});
-        
+
         }
-        async function deleteAd(id) {
-            console.log(id);
-          await  Ad.findByIdAndRemove({_id: id}) ;
-        
-        }
+    });
+
+
+}
+
+async function getAdvertisement(id) {
+    return await Ad.findById({ _id: id });
+
+}
+async function deleteAd(id) {
+    console.log(id);
+    await Ad.findByIdAndRemove({ _id: id });
+
+}
 
 module.exports = {
     publishAd,

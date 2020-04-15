@@ -27,6 +27,7 @@ module.exports = (() => {
                 listOfBadwords.badwords.push(bWord);
                 saveBadWord(listOfBadwords).then(() => {}).catch(err => console.log(err))
             }
+            return listOfBadwords;
 
         }
         /**
@@ -34,10 +35,14 @@ module.exports = (() => {
          * @param {a complete JSON object that comes from teh front end} updatedBadWordList 
          */
     const updateBadWordList = (updatedBadWordList) => {
-            saveBadWord(updatedBadWordList).then(() => {
-                listOfBadwords = updateBadWordList;
+            let newUpdatedList = {
+                "badwords": updatedBadWordList
+            }
+            saveBadWord(newUpdatedList).then(() => {
+                listOfBadwords.badwords = [];
+                listOfBadwords.badwords = [...updatedBadWordList];
             }).catch(err => console.log(err))
-
+            return listOfBadwords;
         }
         /**
          * one remove one word at a time
