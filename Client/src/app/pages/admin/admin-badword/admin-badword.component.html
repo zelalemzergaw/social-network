@@ -1,39 +1,24 @@
 <h4>Manage 'bad' words</h4>
 <fieldset class="scheduler-border">
     <legend class="scheduler-border">Add Bad Words</legend>
-    <form>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputBadWord">New Bad Word</label>
-                <input type="email" class="form-control" id="inputBadWord" placeholder="Bad word">
+    <form [formGroup]="badWordForm" (ngSubmit)="onSubmit()">
+        <div class="form-row ">
+            <div class="form-group col-md-6 ">
+                <label for="newBadWord">New Bad Word</label>
+                <input formControlName="newBadWord" style="color: black;" type="text" class="form-control" id="nwBadWord" placeholder="new bad word" name="newBadWord " type="text " (focus)="focus=true" (blur)="focus=false ">
             </div>
         </div>
-        <button type="button" class="btn btn-default">Add Word</button>
+        <button type="button " class="btn btn-default ">Add Word</button>
     </form>
 </fieldset>
-<fieldset class="scheduler-border">
-    <legend class="scheduler-border">Current Bad Words</legend>
-    <div class="col-md-12">
+<fieldset class="scheduler-border ">
+    <legend class="scheduler-border ">Current Bad Words</legend>
+    <div class="col-md-12 ">
         <h4>Click on the word to remove it</h4>
-        <span class="badge badge-default" style="margin: 1%;">bad words than
-        <button class="btn btn-primary btn-fab btn-icon btn-round">
-            <i class="tim-icons icon-simple-remove"></i>
-          </button>
-    </span>
-        <span class="badge badge-default" style="margin: 1%;">bad words than
-        <button class="btn btn-primary btn-fab btn-icon btn-round">
-            <i class="tim-icons icon-simple-remove"></i>
-          </button>
-    </span>
-        <span class="badge badge-default" style="margin: 1%;">bad words than
-        <button class="btn btn-primary btn-fab btn-icon btn-round">
-            <i class="tim-icons icon-simple-remove"></i>
-          </button>
-    </span>
-        <span class="badge badge-default" style="margin: 1%;">bad words than
-        <button class="btn btn-primary btn-fab btn-icon btn-round">
-            <i class="tim-icons icon-simple-remove"></i>
-          </button>
-    </span>
+        <span class="badge badge-default " style="margin: 1%; " *ngFor="let baword of allBwords; let i = index">{{baword}}
+            <button class="btn btn-primary btn-fab btn-icon btn-round" (click)="onRemoveBadWord(i)">
+                <i class="tim-icons icon-simple-remove "></i>
+           </button>
+        </span>
     </div>
 </fieldset>
