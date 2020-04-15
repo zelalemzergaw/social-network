@@ -40,6 +40,7 @@ import { AdminBadwordComponent } from './admin/admin-badword/admin-badword.compo
 import { AdminAdvertismentComponent } from './admin/admin-advertisment/admin-advertisment.component';
 import { ImageUploadModule } from "angular2-image-upload";
 import { AdminNotificationAreaComponent } from './admin/admin-notification-area/admin-notification-area.component';
+import { PeopleComponent } from './user/user-home/explore/people/people.component';
 
 @NgModule({
   imports: [
@@ -83,7 +84,8 @@ import { AdminNotificationAreaComponent } from './admin/admin-notification-area/
     AdminPostReviewComponent,
     AdminBadwordComponent,
     AdminAdvertismentComponent,
-    AdminNotificationAreaComponent
+    AdminNotificationAreaComponent,
+    PeopleComponent
   ],
   exports: [
     IndexComponent,

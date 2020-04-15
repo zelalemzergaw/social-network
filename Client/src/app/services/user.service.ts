@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { User, Post } from '../models';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../util';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   currentUser:any;
-
+  allUsers = [];
   constructor(private http: HttpClient) { 
 
   }
@@ -32,8 +33,15 @@ export class UserService {
   createPost(post: Post) {
       return this.http.post<ApiResponse>(environment.API_URL + "/api/user/create-post", post);
   }
-  getAllUsers() {
+  _getAllUsers() {
     return this.http.get<ApiResponse>(environment.API_URL + "/api/users");
   }
+
+  getAllUsers() {
+    return this.allUsers;
+  }
+
+  
+  
 }
 

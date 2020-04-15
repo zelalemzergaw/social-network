@@ -110,6 +110,11 @@ async function getUserById(id) {
     return  new ApiResponse(200, "success", result);
 }
 
+async function getAllUsers() {
+    let result = await User.find();
+    return new ApiResponse(200, "success", result);
+}
+
 /**
  * Reads stop words from file
  */
@@ -257,6 +262,7 @@ module.exports = {
     followUser,
     unFollowerUser,
     getFollowing,
-    getFollers
+    getFollers,
+    getAllUsers
     
 }
