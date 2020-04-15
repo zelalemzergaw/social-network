@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-3" style="background:white;">
+            <app-admin-profile></app-admin-profile>
+        </div>
+        <div class="col-md-6" style="height: 900px;">
+            <div class="card">
+                <div class="card-header">
+                    <tabset class="nav-tabs-primary">
+                        <tab>
+                            <ng-template tabHeading>
+                                <span class="iconHeaders">
+                                    <i class="tim-icons icon-spaceship"> </i> Advertisements
+                                </span>
+
+                            </ng-template>
+                            <app-admin-advertisment></app-admin-advertisment>
+                        </tab>
+                        <tab>
+                            <ng-template tabHeading>
+                                <span class="iconHeaders">
+                                    <i class="tim-icons icon-settings-gear-63"> </i> Manage Posts
+                                </span>
+                            </ng-template>
+                            <app-admin-post-review></app-admin-post-review>
+
+                        </tab>
+                        <tab>
+                            <ng-template tabHeading>
+                                <span class="iconHeaders">
+                                    <i class="tim-icons icon-istanbul"> </i> Site Management
+                                </span>
+                            </ng-template>
+                            <app-admin-badword></app-admin-badword>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" style="background: white;">
+            <app-admin-notification-area></app-admin-notification-area>
+        </div>
+    </div>
+
+</div>
