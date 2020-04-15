@@ -2,8 +2,8 @@ const
      path = require('path'),
      bcrypt = require('bcryptjs'),
      jwt = require('jsonwebtoken'),
-      crypto = require('crypto'),
-    { ApiResponse } = require(path.join(__dirname, "..", "..", "util")),
+     crypto = require('crypto'),
+     { ApiResponse } = require(path.join(__dirname, "..", "..", "util")),
      { User, Post, Ad } = require(path.join(__dirname,'..', '..', 'models')),
      { mailerService } = require(path.join(__dirname, '..', 'shared'));
 

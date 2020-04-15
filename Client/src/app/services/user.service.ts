@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models';
+import { User, Post } from '../models';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../util';
 
@@ -27,6 +27,13 @@ export class UserService {
   }
   getCurrrentUser() {
     return this.currentUser;
+  }
+
+  createPost(post: Post) {
+      return this.http.post<ApiResponse>(environment.API_URL + "/api/user/create-post", post);
+  }
+  getAllUsers() {
+    return this.http.get<ApiResponse>(environment.API_URL + "/api/users");
   }
 }
 

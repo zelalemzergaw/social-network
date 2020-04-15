@@ -6,7 +6,7 @@
            <span >Jenefer Lawrun</span>
        </div>
         <div class="form-row position: relative">
-          <textarea [(ngModel)]="post" style="color: black" class="form-control"  placeholder="What is in your mind?" id="exampleFormControlTextarea1" >
+          <textarea [(ngModel)]="post.description" style="color: black" class="form-control"  placeholder="What is in your mind?" id="exampleFormControlTextarea1" >
           </textarea>
 
              <!-- <p style="position:absolute;left: 28px;cursor: pointer;z-index: 1;
@@ -19,18 +19,26 @@
                    buttonCaption="browse"
                    dropBoxMessage=""
                    clearButtonCaption=""
-                   url="http://localhost:3000/api/upload"
+                   [url]="IMG_UPLOD_URL" [max]="4" [extensions]="['jpeg','png']"
                    [style]="customStyle">
                 </image-upload>
               </form>
 
 
         </div>
-
-
-
-
-        <button style="float:right; margin-top: 1%"  class="btn-sm btn btn-primary btn-simple">Post</button>
+       <div *ngIf="post_status">
+        <alert class="alert-with-icon" [type]="'success'"  [dismissible]="true">
+          <span class=" tim-icons icon-trophy" data-notify="icon">
+          </span>
+          <span>
+            <b>
+              Heads up! -
+            </b>
+            Successfully created your post!
+          </span>
+        </alert>
+       </div>
+        <button (click)="createPost()" style="float:right; margin-top: 1%"  class="btn-sm btn btn-primary btn-simple">Post</button>
 
   </div>
 

@@ -9,7 +9,9 @@ import { first } from 'rxjs/operators';
 export class UserHomeComponent implements OnInit {
   currentUser: any;
   constructor( private authService: AuthenticationService, private userService: UserService) {
+    console.log("constructor of User component");
         this.currentUser = authService.getCurrentUser();
+        userService.setCurrentUser(this.currentUser);
   }
 
   ngOnInit(): void {

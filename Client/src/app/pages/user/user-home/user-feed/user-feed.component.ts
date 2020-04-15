@@ -1,4 +1,10 @@
 import { Component, OnInit , ViewChild } from '@angular/core';
+import { AuthenticationService, UserService } from "../../../../services";
+import { Post } from "../../../../models";
+import { tick } from '@angular/core/testing';
+import  { environment } from '../../../../../environments/environment';
+import { FileHolder, UploadMetadata } from 'angular2-image-upload';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-feed',
@@ -6,7 +12,11 @@ import { Component, OnInit , ViewChild } from '@angular/core';
   styleUrls: ['./user-feed.component.scss']
 })
 export class UserFeedComponent implements OnInit {
-  post = "";
+  post_status: boolean = false;
+  post_message: "";
+  post: Post = new Post();
+  API_URL: string = environment.API_URL;
+  IMG_UPLOD_URL = this.API_URL + "/api/uploads/profile-image";
   customStyle = {
     selectButton: {
       // "background-color": "yellow",
@@ -39,16 +49,33 @@ export class UserFeedComponent implements OnInit {
     }
   }
 
-  constructor() { }
-  browse() {
-    console.log("slfsadfasdsfasdf");
+  constructor(private userService: UserService) {
+    console.log("constructor of Feed component", this.IMG_UPLOD_URL);
+
+  }
+  ngOnInit(): void {
+    this.initPost();
   }
 
-  onUploadFinished(file:any) {
-  console.log(file);
-}
+  onUploadFinished(file: FileHolder) {
+    this.post.images.push(this.API_URL + file.serverResponse.response.body); 
+  }
 
-  ngOnInit(): void {
+  createPost(){
+    this.userService.createPost(this.post).pipe(first())
+         .subscribe(response => {
+           if(response.status === 200) {
+             this.post_status = true;
+           }
+           console.log("RESPONSE", response);
+         })
+    console.log("NEW", this.post);
+
+  }
+
+  initPost(){
+    console.log("FEED",this.userService.getCurrrentUser());
+    this.post.postedBy = this.userService.getCurrrentUser()._id;
   }
 
 

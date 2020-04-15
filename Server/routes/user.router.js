@@ -3,7 +3,7 @@ const
     router = require('express').Router(),
     { userController } = require(path.join(__dirname, '..', 'controllers'));
 
-router.post("/create-post", userController.createPost);
+router.post("/create-post",(req, res, next) => { console.log("THNKD", req.body); next()}, userController.createPost);
 router.get("/posts", userController.getAll);
 router.get("/posts/:p_Id", userController.updatepostget);
 router.post("/updatepost", userController.updatepost);

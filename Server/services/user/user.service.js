@@ -14,16 +14,15 @@ async function getAllPosts() {
 
 }
 async function createPost(userId, data) {
-
-    //const photopost = await user
     const post = new Post({
         title: data.title,
         description: data.description,
-        images: data.image,
+        images: data.images,
         postedBy: userId,
 
     });
     await post.save();
+    return new ApiResponse(200, "success", {});
 }
 
 async function updatePostGet(id) {

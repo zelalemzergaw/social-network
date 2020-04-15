@@ -22,10 +22,16 @@ exports.updateUser = async (req, res, next) =>{
     res.json({message: "successfully updated"});
 }
 
-exports.createPost = (req, res, next) => {
-    //console.log("test create post");
-    userService.createPost(req.userId, req.body);
-    res.send('succesfully added');
+exports.createPost = async (req, res, next) => {
+    try{
+        let response = await userService.createPost(req.userId, req.body);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+    
 
 }
 
