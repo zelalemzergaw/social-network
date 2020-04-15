@@ -38,6 +38,13 @@ import { UserFeedComponent } from './user/user-home/user-feed/user-feed.componen
 import { ProfileComponent } from './user/user-home/profile/profile.component';
 import { ExploreComponent } from './user/user-home/explore/explore.component';
 import { PostComponent } from './user/user-home/post/post.component';
+import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
+import { AdminPostReviewComponent } from './admin/admin-post-review/admin-post-review.component';
+import { AdminBadwordComponent } from './admin/admin-badword/admin-badword.component';
+import { AdminAdvertismentComponent } from './admin/admin-advertisment/admin-advertisment.component';
+import { ImageUploadModule } from "angular2-image-upload";
+import { AdminNotificationAreaComponent } from './admin/admin-notification-area/admin-notification-area.component';
 
 @NgModule({
   imports: [
@@ -77,6 +84,12 @@ import { PostComponent } from './user/user-home/post/post.component';
     ProfileComponent,
     ExploreComponent,
     PostComponent
+    AdminHomeComponent,
+    AdminProfileComponent,
+    AdminPostReviewComponent,
+    AdminBadwordComponent,
+    AdminAdvertismentComponent,
+    AdminNotificationAreaComponent
   ],
   exports: [
     IndexComponent,

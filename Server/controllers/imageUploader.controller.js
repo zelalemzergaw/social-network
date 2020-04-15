@@ -1,11 +1,29 @@
 const path = require('path'),
-    { imageUploaderService } = require(path.join(__dirname, '..', 'services'));
-
+    fs = require('fs'),
+    util = require('util'),
+    imageFolderLocation = path.join(__dirname, '..', 'resources/images');
 
 exports.imageUploader = (req, res, next) => {
-    const file = req.file;
-    if (!file) {
-        res.json({ "err": "Uploading... Failed!" });
+    const files = req.files;
+    try {
+        if (!files) {
+            res.json({ "err": "Uploading... Failed!" });
+        }
+        res.json(files[0].filename);
+
+    } catch (error) {
+        console.log('error has happend')
+
     }
-    res.send(file.filename);
+
+}
+
+exports.removeUploadedImage = (req, res, next) => {
+    const unlink = fs.unlink;
+    unlink(imageFolderLocation, req.body, function(err) {
+        if (err) {
+            console.log("something went wrong")
+        }
+        res.json('imaged Deleted Succesfully');
+    });
 }

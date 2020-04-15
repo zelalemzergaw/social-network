@@ -16,5 +16,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-router.post('/profile-image', upload.single('myForm'), imageUploaderController.imageUploader);
+router.post('/profile-image', upload.any(), imageUploaderController.imageUploader);
+router.post('/remove-image', imageUploaderController.removeUploadedImage);
 module.exports = router;
