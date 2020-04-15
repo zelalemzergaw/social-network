@@ -100,16 +100,13 @@ exports.followuser=(req, res, next) => {
 }
 
 exports.unFollowuser=(req, res, next) => {
-    console.log(req.params.uid);
     userService.unFollowerUser(req.params.uid);
     return res.json({ message: "Successfully unfollowed" })
 }
 
 exports.getAllPosts = (req, res, next) => {
-    console.log(req.userId);
-    res.json(await userService.updateUserAdvt());
+    // res.json(await userService.updateUserAdvt());
 
-    res.json([{titile: "user one", description: "hello this is my first user"}]);
 }
 
 exports.getFollowers = (req,res,next) => {

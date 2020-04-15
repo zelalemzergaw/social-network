@@ -5,10 +5,6 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { FilePondModule, registerPlugin } from 'ngx-filepond';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-registerPlugin(FilePondPluginFileValidateType);
-
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
@@ -21,7 +17,6 @@ import { CarouselModule } from "ngx-bootstrap/carousel";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { JwBootstrapSwitchNg2Module } from "jw-bootstrap-switch-ng2";
 import { PopoverModule } from "ngx-bootstrap/popover";
-import { ImageUploadModule } from "angular2-image-upload";
 
 import { IndexComponent } from "./index/index.component";
 import { ProfilepageComponent } from "./examples/profilepage/profilepage.component";
@@ -48,7 +43,6 @@ import { AdminNotificationAreaComponent } from './admin/admin-notification-area/
 
 @NgModule({
   imports: [
-    FilePondModule,
     CommonModule,
     BrowserModule,
     FormsModule,
@@ -83,7 +77,7 @@ import { AdminNotificationAreaComponent } from './admin/admin-notification-area/
     UserFeedComponent,
     ProfileComponent,
     ExploreComponent,
-    PostComponent
+    PostComponent,
     AdminHomeComponent,
     AdminProfileComponent,
     AdminPostReviewComponent,
