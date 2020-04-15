@@ -1,24 +1,25 @@
 const 
     path = require('path'),
+    { ApiResponse } = require(path.join(__dirname, "..", "util")),
     { authService } = require(path.join(__dirname, '..', 'services'));
 
-exports.register =  (req, res, next) => {
-    authService.signup(req.body)
-               .then(result => {
-                   res.json({ message: "You have successfully registered!"});
-               }).catch(err => res.send(err));
+exports.register =  async (req, res, next) => {
+    try{
+        let response = await authService.signup(req.body);
+        console.log(response, "OOOOO")
+        res.status(response.status).json(response);
+    }catch(err) {
+        res.status(500).json(err);
+    }
 
 }
-exports.login = (req, res, next) => {
-    authService.login(req.body.username, req.body.password)
-               .then(user => {
-                   res.json(user);
-               })
-               .catch(err => res.send((err)));
-}
-
-exports.updateUser =  (req, res, next) => {
-
+exports.login = async (req, res, next) => {
+    try {
+        let response = await authService.login(req.body.username, req.body.password);
+        res.status(response.status).json(response);
+    }catch(err) {
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
 exports.forgotPassword = (req, res, next) => {

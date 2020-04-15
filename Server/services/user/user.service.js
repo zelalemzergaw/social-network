@@ -1,5 +1,6 @@
 const
     path = require('path'),
+    { ApiResponse } = require(path.join(__dirname, "..", "..", "util")),
     fs = require('fs'),
     util = require('util'),
     stopWordPath = path.join(__dirname, '..', '..', 'resources/stop-words/stopWords.json'),
@@ -106,7 +107,8 @@ async function updateUser(id, data) {
 
 }
 async function getUserById(id) {
-    return await User.findById({ _id: id });
+    let result = await  User.findById({ _id: id });
+    return  new ApiResponse(200, "success", result);
 }
 
 /**

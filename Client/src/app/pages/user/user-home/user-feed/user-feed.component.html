@@ -1,0 +1,38 @@
+
+<div class="card create-post">
+  <div class="card-body">
+       <div class="pic_username">
+           <img src="assets/img/mike.jpg" width=30 class=" rounded-circle">
+           <span >Jenefer Lawrun</span>
+       </div>
+        <div class="form-row position: relative">
+          <textarea [(ngModel)]="post" style="color: black" class="form-control"  placeholder="What is in your mind?" id="exampleFormControlTextarea1" >
+          </textarea>
+
+             <!-- <p style="position:absolute;left: 28px;cursor: pointer;z-index: 1;
+    top: 125px;">
+               <i class="fa fa-picture-o" aria-hidden="true" style="color: black; " (click)="browse()"></i>
+              </p> -->
+              <form name="myForm">
+                <image-upload
+                   (uploadFinished)="onUploadFinished($event)"
+                   buttonCaption="browse"
+                   dropBoxMessage=""
+                   clearButtonCaption=""
+                   url="http://localhost:3000/api/upload"
+                   [style]="customStyle">
+                </image-upload>
+              </form>
+
+
+        </div>
+
+
+
+
+        <button style="float:right; margin-top: 1%"  class="btn-sm btn btn-primary btn-simple">Post</button>
+
+  </div>
+
+</div>
+<app-post></app-post>

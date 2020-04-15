@@ -3,7 +3,6 @@ const
     router = require('express').Router(),
     { userController } = require(path.join(__dirname, '..', 'controllers'));
 
-
 router.post("/create-post", userController.createPost);
 router.get("/posts", userController.getAll);
 router.get("/posts/:p_Id", userController.updatepostget);
@@ -21,7 +20,6 @@ router.post("/posts", userController.getAllPosts);
 router.post("/Unfollow/:uid", userController.unFollowuser );
 router.get("following/:id", userController.getFollowing);
 router.get("followers/:id", userController.getFollowers);
-
 
 
 module.exports = router;

@@ -1,9 +1,19 @@
 const
     path = require('path'),
+    { ApiResponse } = require(path.join(__dirname, "..", "util")),
     { userService } = require(path.join(__dirname, '..', 'services'));
 
 exports.getUser = async (req, res, next) => {
-    res.json(await userService.getUserById(req.params.id));
+    try{
+        console.log("calling")
+        let response = await userService.getUserById(req.params.id);
+        console.log(response);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
 exports.updateUser = async (req, res, next) =>{

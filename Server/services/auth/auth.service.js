@@ -3,15 +3,14 @@ const
      bcrypt = require('bcryptjs'),
      jwt = require('jsonwebtoken'),
       crypto = require('crypto'),
+    { ApiResponse } = require(path.join(__dirname, "..", "..", "util")),
      { User, Post, Ad } = require(path.join(__dirname,'..', '..', 'models')),
      { mailerService } = require(path.join(__dirname, '..', 'shared'));
 
 
 async function signup(data) {
     const user = await User.findOne({ username: data.username });
-    if (user) {
-        throw "Username " + data.username + " is already taken";
-    }
+    if (user) return  new ApiResponse(401, "error", {err: "Username alaready taken"});
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(data.password, salt);
@@ -26,22 +25,26 @@ async function signup(data) {
             password: hashedPassword
         });
     await u.save()
+    return new ApiResponse(200, "success", {});
+
 }
 
 async function login(username, password ) {
 
     const user = await User.findOne({ username });
-    if(!user) throw "User doesn't exist!";
+    if(!user) return new ApiResponse(401, "error", {err: "Username doesn't exists"});
 
     const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) throw "Invalid password";
+    if (!validPassword) return new ApiResponse(401, "error", {err:"Invalid password"})
 
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: 86400 });
-
-    return {
-         "access_token": token,
-          ...user._doc
-        }
+    let result = {
+        "access_token": token,
+         ...user._doc
+       };
+    return new ApiResponse(200, "success", result); 
+         
+        
 
 
 }
