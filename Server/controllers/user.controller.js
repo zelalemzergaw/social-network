@@ -73,10 +73,37 @@ exports.deletepost = async(req, res, next) => {
     res.json({ message: "successfully deleted" });
 
 }
-exports.createcomment = async(req, res, next) => {
-    await userService.createComment(req.params.c_Id, req.userId, req.body);
-    // console.log("comment  uplading ....");
-    res.json({ message: "comment uploaded successfully" });
+exports.addComment = async(req, res, next) => {
+    try{
+        let response = await userService.addComment(req.userId, req.params.postId, req.body);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+
+}
+exports.likePost = async(req, res, next) => {
+    try{
+        let response = await userService.likePost(req.userId, req.params.postId, req.body);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+
+}
+exports.unLikePost = async(req, res, next) => {
+    try{
+        let response = await userService.unLikePost(req.userId, req.params.postId);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 
 }
 exports.updatecomment = async(req, res, next) => {

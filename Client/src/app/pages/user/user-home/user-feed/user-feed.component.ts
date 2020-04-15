@@ -55,13 +55,17 @@ export class UserFeedComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initPost();
+     this.fetchPostFeeds();
+  }
+
+  fetchPostFeeds() {
     this.userService.fetchFeed().pipe(first())
-        .subscribe(respose => {
-          this.feeds = respose.result;
-          console.log("WOOOW my feeds", respose.result);
-        }, err => {
-          console.log(err);
-        })
+    .subscribe(respose => {
+      this.feeds = respose.result;
+      console.log("WOOOW my feeds", respose.result);
+    }, err => {
+      console.log(err);
+    })
   }
 
   onUploadFinished(file: FileHolder) {
@@ -75,6 +79,7 @@ export class UserFeedComponent implements OnInit {
              this.post_status = true;
            }
            this.post.postedBy = this.userService.getCurrrentUser();
+           this.post.createdAt = Date.now();
            this.feeds.unshift(this.post);
          })
     console.log("NEW", this.post);
@@ -84,6 +89,53 @@ export class UserFeedComponent implements OnInit {
   initPost(){
     console.log("FEED",this.userService.getCurrrentUser());
     this.post.postedBy = this.userService.getCurrrentUser()._id;
+  }
+
+  comment(text, id) {
+    this.userService.addComment(id, text)
+        .subscribe(respose => {
+          console.log("COMMENT RESPONSE", respose);
+          let i = this.feeds.findIndex(f => f._id == id);
+          let c = {
+            text: text,
+            commentedBy: this.userService.getCurrrentUser(),
+            createdAt: Date.now()
+          };
+          this.feeds[i].comments.push(c);
+        })
+  }
+ isLiked(id) {
+  let index = this.feeds.findIndex(f => f._id == id);
+  if(index < 0 || !this.feeds[index].likes) {
+    return "black";
+  }
+  let l_index = this.feeds[index].likes.findIndex(l => l.likedBy == this.userService.getCurrrentUser()._id);
+  return l_index > -1 ? "blue": "black";
+  
+ }
+
+  like(id) {
+    let index = this.feeds.findIndex(f => f._id == id);
+    let l_index = this.feeds[index].likes.findIndex(l => l.likedBy == this.userService.getCurrrentUser()._id);
+    if(l_index > -1) {
+      // unlike
+      console.log("UNLIKE")
+       console.log(index, l_index, "INDEX");
+       this.userService.unLikePost(id).subscribe(response => {
+           this.feeds[index].likes.splice(l_index, 1);
+       })
+    }
+    else {
+      console.log("LIKE")
+      this.userService.likePost(id).subscribe(response => {
+        let i = this.feeds.findIndex(f => f._id == id);
+        let l = {
+          likedBy: this.userService.getCurrrentUser()._id,
+        };
+        this.feeds[i].likes.push(l);
+      });
+    }
+    
   }
 
 

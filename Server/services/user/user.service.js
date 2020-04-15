@@ -21,8 +21,8 @@ async function createPost(userId, data) {
         postedBy: userId,
 
     });
-    await post.save();
-    return new ApiResponse(200, "success", {});
+   let result =  await post.save();
+    return new ApiResponse(200, "success", result);
 }
 
 async function updatePostGet(id) {
@@ -52,18 +52,43 @@ async function getPost(p_id) {
 }
 
 
-async function createComment(p_id, uId, data) {
-    //console.log('update working......');
-    await Post.updateOne({ _id: p_id }, {
+async function addComment(id, postId, data) {
+    await Post.updateOne({ _id: postId }, {
         $push: {
             comments: {
-
                 text: data.text,
-                commentedBy: uId
-
+                commentedBy: id
             }
         }
     });
+    return new ApiResponse(200, "success", {});
+
+}
+
+async function likePost(id, postId, data) {
+    console.log("LIKE")
+
+    await Post.updateOne({ _id: postId }, {
+        $push: {
+            likes: {
+                likedBy: id
+            }
+        }
+    });
+    return new ApiResponse(200, "success", {});
+
+}
+
+async function unLikePost(id, postId) {
+    console.log("UNLIKE")
+    await Post.updateOne({ _id: postId }, {
+        $pull: {
+            likes: {
+                likedBy: id
+            }
+        }
+    });
+    return new ApiResponse(200, "success", {});
 
 }
 
@@ -238,7 +263,8 @@ async function fetchFeed(userId) {
     followings.push(userId);
     let result = await Post.find({postedBy: { $in: followings}})
                            .populate("postedBy")
-                           .sort({ updatedAt: "desc"});
+                           .populate("comments.commentedBy")
+                           .sort({ createdAt: "desc"});
     return new ApiResponse(200, "success", result);
 }
 
@@ -256,7 +282,9 @@ module.exports = {
     createPost,
     updatePost,
     deletePost,
-    createComment,
+    addComment,
+    likePost,
+    unLikePost,
     updateComment,
     deleteComment,
     followUser,

@@ -47,6 +47,20 @@ export class UserService {
   fetchFeed() {
     return this.http.get<ApiResponse>(environment.API_URL + "/api/user/feetch-feeds");
   }
+
+  addComment(postId, data) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/add-comment/" + postId, {text: data});
+  }
+
+  likePost(postId) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/like-post/" + postId, {});
+  }
+
+  unLikePost(postId) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/unlike-post/" + postId, {});
+  }
+  
+  
   
 }
 

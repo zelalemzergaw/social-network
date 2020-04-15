@@ -7,5 +7,6 @@ export class Post {
     comments: Object[];
     likes: Object[];
     status: string;
+    createdAt: any;
 
 }

@@ -5,6 +5,8 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
 
+import {TimeAgoPipe} from 'time-ago-pipe';
+
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
@@ -64,6 +66,7 @@ import { PeopleComponent } from './user/user-home/explore/people/people.componen
     ImageUploadModule.forRoot()
   ],
   declarations: [
+    TimeAgoPipe,
     IndexComponent,
     ProfilepageComponent,
     RegisterpageComponent,
