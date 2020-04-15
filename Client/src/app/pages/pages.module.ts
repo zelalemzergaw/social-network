@@ -5,6 +5,10 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+registerPlugin(FilePondPluginFileValidateType);
+
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
@@ -37,6 +41,7 @@ import { PostComponent } from './user/user-home/post/post.component';
 
 @NgModule({
   imports: [
+    FilePondModule,
     CommonModule,
     BrowserModule,
     FormsModule,

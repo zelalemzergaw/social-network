@@ -14,7 +14,7 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h4 class="username">Jenefer</h4>
+          <h4 class="username">{{ currentUser.username}}</h4>
           <!-- <hr class="line-primary" /> -->
           <span> California </span>
         </div>
@@ -30,7 +30,12 @@
     <nav class="nav flex-column">
       <a class="nav-link active" href="#" [routerLink]="['']">
         <i class="tim-icons icon-bank" > </i>Home</a>
-      <a class="nav-link" href="#" [routerLink]="['explore']"><i class="tim-icons icon-world"> </i>Explore</a>
+      <a class="nav-link" href="#" [routerLink]="['explore']">
+        <i class="tim-icons icon-world"> </i>Explore
+      </a>
+      <a  *ngIf="currentUser.role === 'ADMIN'" class="nav-link" href="#" routerLink="/admin">
+        <i class="tim-icons icon-world"> </i>Admin panel
+      </a>
     </nav>
   </div>
 </div>

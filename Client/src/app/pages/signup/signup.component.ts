@@ -13,7 +13,7 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   loading = false;
   submitted = false;
-
+  error = "";
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -48,7 +48,13 @@ export class SignupComponent implements OnInit {
         .pipe(first())
         .subscribe(
           data => {
-            this.router.navigate(['/login']);
+            if(data.status == 401) {
+              this.error = data.message;
+            }
+            else {
+              this.router.navigate(['/login']);
+            }
+           
           },
           error => {
             this.loading = false;
