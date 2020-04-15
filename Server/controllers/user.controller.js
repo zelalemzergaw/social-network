@@ -82,3 +82,47 @@ exports.searchposts = (req, res, next) => {
     res.json({ searchResult: result });
 
 }
+
+exports.followuser=(req, res, next) => {
+    console.log(req.params.uid);
+    userService.followUser(req.params.uid);
+    res.json({ message: "Successful following" })
+}
+
+exports.unFollowuser=(req, res, next) => {
+    console.log(req.params.uid);
+    userService.unFollowerUser(req.params.uid);
+    return res.json({ message: "Successfully unfollowed" })
+}
+
+exports.getAllPosts = (req, res, next) => {
+    console.log(req.userId);
+    res.json(await userService.updateUserAdvt());
+
+    res.json([{titile: "user one", description: "hello this is my first user"}]);
+}
+
+exports.getFollowers = (req,res,next) => {
+    try{
+        
+        let result = userService.getFollowers(req.params.userId)
+       return res.json({data:result})
+
+    } catch(err){
+        return res.json({error: err})
+    }
+    
+    }
+
+exports.getFollowing = (req,res,next) => {
+    try{
+
+        let result =    userService.getFollowing(req.params.id)
+        return res.json({data:result})
+
+    } catch(err){
+        return res.json({error: err})
+    }
+    
+   
+        }

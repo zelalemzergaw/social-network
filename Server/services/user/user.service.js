@@ -164,6 +164,79 @@ function getSearchResults(this_User_id, search_Phrase) {
         .populate('postedBy')
         .execPopuate();
 }
+async function updateUserAdvt(id,update){
+    console.log(id,update ,'id print');
+    await User.updateOne({_id:id},{advetisements: {$push: update}});
+
+}
+
+/**
+ * 
+ * @param {is the id of the user who is making the followers and Following} this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
+async function followUser(id,uId) {
+    await User.updateOne({ _id: id }, {
+        $addToSet: {
+            following: {
+                followerID: uId
+
+            }
+        }
+    })
+
+    await User.updateOne({ _id: uId }, {
+        $addToSet: {
+            followers: {
+                followerID: id
+
+            }
+        }
+    });
+}
+
+/**
+ * 
+ * @param {is the id of the user who is making the followers and unFollow} this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
+async function unFollowerUser(id,uId){
+    await User.findOneUpdate({_id:id},{
+        $pull:{
+            following: {
+                followingID: id
+        }}
+    })
+    await User.findOneUpdate({_id:uId},{
+        $pull:{
+            followers: {
+                followerID: uId
+        }}
+    })
+}
+
+/**
+ * 
+ * @param {is the id of the user who is making the get followers } this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
+async function getFollers(userId){
+     await User.findById({_id: userId});
+   
+   }
+
+   /**
+ * 
+ * @param {is the id of the user who is making the get followering } this_User_id 
+ * @param {is action click into the follow button} 
+ */
+
+async function getFollowing(id){
+      await User.findById({_id:id});
+}
 
 module.exports = {
     createPost,
@@ -178,5 +251,11 @@ module.exports = {
     updatePostGet,
     updateCommentGet,
     getUserById,
-    getSearchResults
+    getSearchResults,
+    updateUserAdvt,
+    followUser,
+    unFollowerUser,
+    getFollowing,
+    getFollers
+    
 }

@@ -16,6 +16,12 @@ router.post("/deleteComment/:d_cid", userController.deletecomment);
 router.post("/search-post", userController.searchposts);
 router.get("/:id", userController.getUser);
 router.post('/:id', userController.updateUser)
+router.post("/follow/:uid", userController.followuser );
+router.post("/posts", userController.getAllPosts);
+router.post("/Unfollow/:uid", userController.unFollowuser );
+router.get("following/:id", userController.getFollowing);
+router.get("followers/:id", userController.getFollowers);
+
 
 
 module.exports = router;
