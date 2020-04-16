@@ -44,6 +44,10 @@ export class UserService {
   follow(id) {
     return this.http.post<ApiResponse>(environment.API_URL + "/api/user/follow/"+ id, {});
   }
+
+  unFollow(id) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/unfollow/"+ id, {});
+  }
   fetchFeed() {
     return this.http.get<ApiResponse>(environment.API_URL + "/api/user/feetch-feeds");
   }
@@ -63,6 +67,17 @@ export class UserService {
   getPosts() {
     return this.http.get<ApiResponse>(environment.API_URL + "/api/user/posts");
   }
+
+  getFollowers() {
+    return this.http.get<ApiResponse>(environment.API_URL + "/api/user/followers");
+  }
+
+  getFollwings() {
+    return this.http.get<ApiResponse>(environment.API_URL + "/api/user/followings");
+  }
+
+
+
   
   
 }

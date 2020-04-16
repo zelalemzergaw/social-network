@@ -18,10 +18,10 @@ router.post("/deleteComment/:d_cid", userController.deletecomment);
 router.post("/search-post", userController.searchposts);
 router.post('/:id', userController.updateUser)
 router.post("/follow/:uid", userController.followUser );
+router.post("/unfollow/:uid", userController.unFollowUser)
 router.post("/posts", userController.getAllPosts);
-router.post("/Unfollow/:uid", userController.unFollowuser );
-router.get("following/:id", userController.getFollowing);
-router.get("followers/:id", userController.getFollowers);
+router.get("/followings", userController.getFollowings);
+router.get("/followers", userController.getFollowers);
 router.get("/:id", userController.getUser);
 router.get("/", userController.getAllUsers);
 

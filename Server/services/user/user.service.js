@@ -204,6 +204,25 @@ async function updateUserAdvt(id,update){
  * @param {is action click into the follow button} 
  */
 
+ async function getFollowers(id) {
+    let user = await User.findById({_id: id});
+    let followers = user.followers.map(f => f.followerID);
+    let myFollowers = await User.find({_id: {$in: followers}});
+    
+    return new ApiResponse(200, "success", myFollowers);
+    
+ } 
+
+ async function getFollowings(id) {
+     console.log("get followings")
+    let user = await User.findById({_id: id});
+    let followings = user.following.map(f => f.followerID);
+    console.log(user, followings);
+    let Myfollowings = await User.find({_id: {$in: followings}});
+    
+    return new ApiResponse(200, "success", Myfollowings);
+    
+ } 
 async function followUser(id,uId) {
     await User.updateOne({ _id: id }, {
         $addToSet: {
@@ -231,19 +250,21 @@ async function followUser(id,uId) {
  * @param {is action click into the follow button} 
  */
 
-async function unFollowerUser(id,uId){
-    await User.findOneUpdate({_id:id},{
-        $pull:{
-            following: {
-                followingID: id
-        }}
+async function unFollowUser(id,uId){
+    let u1 = await User.findById({_id: id});
+    let u2 = await User.findById({_id: uId});
+    let following = u1.following.filter(f => f.followerID != uId);
+    let followers = u1.followers.filter(f => f.followerID != id);
+
+    await User.updateOne({_id:id},
+        {
+        $set:{  following: following}
+    });
+    await User.updateOne({_id:uId},{
+        $set:{ followers: followers}
     })
-    await User.findOneUpdate({_id:uId},{
-        $pull:{
-            followers: {
-                followerID: uId
-        }}
-    })
+
+    return new ApiResponse(200, "success", {});
 }
 
 /**
@@ -302,10 +323,12 @@ module.exports = {
     getUserById,
     getSearchResults,
     updateUserAdvt,
-    unFollowerUser,
+    unFollowUser,
     getFollowing,
     getAllUsers,
     fetchFeed,
-    getPosts
+    getPosts,
+    getFollowers,
+    getFollowings
     
 }

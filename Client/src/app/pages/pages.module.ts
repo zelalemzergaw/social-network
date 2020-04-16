@@ -44,6 +44,8 @@ import { ImageUploadModule } from "angular2-image-upload";
 import { AdminNotificationAreaComponent } from './admin/admin-notification-area/admin-notification-area.component';
 import { PeopleComponent } from './user/user-home/explore/people/people.component';
 import { MyPostComponent } from './user/user-home/explore/my-post/my-post.component';
+import { FollowersComponent } from './user/user-home/explore/followers/followers.component';
+import { FollowingsComponent } from './user/user-home/explore/followings/followings.component';
 
 @NgModule({
   imports: [
@@ -90,7 +92,9 @@ import { MyPostComponent } from './user/user-home/explore/my-post/my-post.compon
     AdminAdvertismentComponent,
     AdminNotificationAreaComponent,
     PeopleComponent,
-    MyPostComponent
+    MyPostComponent,
+    FollowersComponent,
+    FollowingsComponent
   ],
   exports: [
     IndexComponent,

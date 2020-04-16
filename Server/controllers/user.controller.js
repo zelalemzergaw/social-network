@@ -167,9 +167,15 @@ exports.getPosts =  async(req, res, next) => {
     }
 }
 
-exports.unFollowuser=(req, res, next) => {
-    userService.unFollowerUser(req.params.uid);
-    return res.json({ message: "Successfully unfollowed" })
+exports.unFollowUser=async(req, res, next) => {
+    try{
+        let response = await userService.unFollowUser(req.userId, req.params.uid);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
 exports.getAllPosts = (req, res, next) => {
@@ -177,27 +183,30 @@ exports.getAllPosts = (req, res, next) => {
 
 }
 
-exports.getFollowers = (req,res,next) => {
+exports.getFollowers = async (req,res,next) => {
     try{
         
-        // let result = userService.getFollowers(req.params.userId)
-    //    return res.json({data:result})
+        let response = await userService.getFollowers(req.userId)
+        console.log(response);
+        res.status(response.status).json(response);
 
     } catch(err){
-        return res.json({error: err})
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
     }
     
     }
 
-exports.getFollowing = (req,res,next) => {
+exports.getFollowings = async (req,res,next) => {
     try{
-
-        let result =    userService.getFollowing(req.params.id)
-        return res.json({data:result})
+        
+        let response = await userService.getFollowings(req.userId)
+        console.log(response);
+        res.status(response.status).json(response);
 
     } catch(err){
-        return res.json({error: err})
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
     }
     
-   
-        }
+    }
