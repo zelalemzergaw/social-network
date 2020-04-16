@@ -6,6 +6,8 @@ import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { FileUploadModule } from 'ng2-file-upload';
+
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
@@ -49,6 +51,7 @@ import { FollowingsComponent } from './user/user-home/explore/followings/followi
 
 @NgModule({
   imports: [
+    FileUploadModule,
     CommonModule,
     BrowserModule,
     FormsModule,

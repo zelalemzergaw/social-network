@@ -24,7 +24,6 @@ export class FollowingsComponent implements OnInit {
                 console.log(this.myFollowings);
             })
 
-
   }
   follow(id) {
      this.userService.follow(id).pipe(first())
