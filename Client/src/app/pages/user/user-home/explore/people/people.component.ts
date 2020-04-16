@@ -15,14 +15,17 @@ export class PeopleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+     this.initUsers();
+  }
+
+  initUsers() {
     this.userService._getAllUsers().pipe(first())
         .subscribe(respose => {
           this.currentUser = this.userService.getCurrrentUser();
-          this.allusers = respose.result;
+          this.allusers = respose.result.filter(u => u._id !== this.currentUser._id);
         });
-
-
   }
+
   follow(id) {
      this.userService.follow(id).pipe(first())
          .subscribe(response => {
@@ -31,6 +34,8 @@ export class PeopleComponent implements OnInit {
           u.followers.push({"followerID": this.currentUser});
           this.currentUser.following.push({"followerID": id});
           this.allusers[i] = u;
+          this.userService.followers.next();
+          this.userService.followings.next();
          });
   }
 
@@ -44,6 +49,8 @@ export class PeopleComponent implements OnInit {
           }
           const index2 = this.currentUser.following.findIndex(f => f.followerID == id);
           this.currentUser.following.splice(index2, 1);
+          this.userService.followers.next();
+          this.userService.followings.next();
     });
   }
 

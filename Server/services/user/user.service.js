@@ -114,6 +114,10 @@ async function deleteComment(params) {
     });
 }
 
+async function changeProfilePic(id, pic) {
+    await User.updateOne({_id: id}, { photo: pic});
+    return new ApiResponse(200, 'success', {});
+}
 
 async function updateUser(id, data) {
     await User.updateOne({ _id: id }, {
@@ -329,6 +333,7 @@ module.exports = {
     fetchFeed,
     getPosts,
     getFollowers,
-    getFollowings
+    getFollowings,
+    changeProfilePic
     
 }

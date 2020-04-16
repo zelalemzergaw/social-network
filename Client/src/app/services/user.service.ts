@@ -4,6 +4,7 @@ import { User, Post } from '../models';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../util';
 import { first } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,12 @@ import { first } from 'rxjs/operators';
 export class UserService {
   currentUser:any;
   allUsers = [];
+
+  public peopleFollow = new Subject<any>();
+  public followers = new Subject<any>();
+  public followings = new Subject<any>();
+  
+
   constructor(private http: HttpClient) { 
 
   }
@@ -23,7 +30,11 @@ export class UserService {
      return this.http.post<ApiResponse>(environment.API_URL + "/api/auth/signup", user);
   }
 
-  setCurrentUser(user) {
+  setCurrentUser(user:User) {
+    this.currentUser = user;
+    let c = JSON.parse(localStorage.getItem('currentUser'));
+    user.access_token = c.access_token;
+    localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUser = user;
   }
   getCurrrentUser() {

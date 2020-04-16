@@ -80,6 +80,7 @@ export class UserFeedComponent implements OnInit {
            }
            this.post.postedBy = this.userService.getCurrrentUser();
            this.post.createdAt = Date.now();
+           this.post.likes = [];
            this.feeds.unshift(this.post);
          })
     console.log("NEW", this.post);
