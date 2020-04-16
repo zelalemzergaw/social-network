@@ -11,4 +11,5 @@ export class User {
   role: Role;
   access_token?: string;
   following: any[];
+  photo: any;
 }

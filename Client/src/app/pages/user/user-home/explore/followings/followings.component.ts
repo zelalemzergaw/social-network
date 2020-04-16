@@ -17,13 +17,22 @@ export class FollowingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      this.initFollowings();
+      this.userService.followings.subscribe(r => {
+        this.initFollowings();
+      })
+  }
+
+  ngOnDestroy() {
+    // this.userService.followings.unsubscribe();
+  }
+  initFollowings() {
     this.userService.getFollwings().pipe(first())
             .subscribe(response => {
                 this.myFollowings = response.result;
                 this.currentUser = this.userService.getCurrrentUser();
                 console.log(this.myFollowings);
             })
-
   }
   follow(id) {
      this.userService.follow(id).pipe(first())
@@ -43,9 +52,11 @@ export class FollowingsComponent implements OnInit {
           const index = this.myFollowings[i].followers.findIndex(f => f.followerID == this.userService.getCurrrentUser()._id);
           if(index > -1) {
             this.myFollowings[i].followers.splice(index, 1);
+            this.myFollowings.splice(i, 1);
           }
           const index2 = this.currentUser.following.findIndex(f => f.followerID == id);
           this.currentUser.following.splice(index2, 1);
+          console.log("unfollow");
     });
   }
 

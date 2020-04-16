@@ -2,7 +2,7 @@ const
     path = require('path'),
     router = require('express').Router(),
     { userController } = require(path.join(__dirname, '..', 'controllers'));
-
+router.post("/change-pic", userController.changeProfilePic)
 router.get('/feetch-feeds', userController.fetchFeed);
 router.post("/create-post",userController.createPost);
 router.get("/posts", userController.getPosts);
