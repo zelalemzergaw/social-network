@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
-        unique: true,
-        required: true,
         trim: true
     },
     description: {
@@ -25,7 +23,9 @@ const postSchema = new mongoose.Schema({
         commentedBy: {
             type: mongoose.Types.ObjectId,
             ref: 'User'
-        }
+        },
+        createdAt : { type : Date, default: Date.now }
+        
     }],
     likes: [{
         likedBy: {

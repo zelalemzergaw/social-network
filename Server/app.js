@@ -1,4 +1,5 @@
 const express = require('express'),
+     cors = require('cors'),
     path = require('path'),
     dotenv = require('dotenv'),
     mongoose = require('mongoose'),
@@ -6,7 +7,6 @@ const express = require('express'),
 
 dotenv.config();
 const app = express();
-var cors = require('cors');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 //     res.setHeader('Access-Control-Allow-Credentials', true);
 //     next();
 //   });
-
+app.use(express.static(path.join(__dirname, "resources/images")))
 initRoutes(app);
 
 // catch 404 and forward to error handler

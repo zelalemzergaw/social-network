@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AuthenticationService, UserService } from "../../../../services";
 
 import { UserFeedComponent } from './user-feed.component';
 

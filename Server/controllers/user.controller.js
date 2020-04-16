@@ -5,9 +5,7 @@ const
 
 exports.getUser = async (req, res, next) => {
     try{
-        console.log("calling")
         let response = await userService.getUserById(req.params.id);
-        console.log(response);
         res.status(response.status).json(response);
     }
     catch(err) {
@@ -16,21 +14,39 @@ exports.getUser = async (req, res, next) => {
     }
 }
 
+exports.getAllUsers = async (req, res, next) => {
+    try{
+        let response = await userService.getAllUsers();
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+}
+
+
+
 exports.updateUser = async (req, res, next) =>{
 
     await userService.updateUser(req.params.id, req.data);
     res.json({message: "successfully updated"});
 }
 
-exports.createPost = (req, res, next) => {
-    //console.log("test create post");
-    userService.createPost(req.userId, req.body);
-    res.send('succesfully added');
+exports.createPost = async (req, res, next) => {
+    try{
+        let response = await userService.createPost(req.userId, req.body);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+    
 
 }
 
 exports.getAll = async(req, res, next) => {
-    console.log(req.userId);
     res.json(await userService.getAllPosts());
     //res.json([{ titile: "post one", description: "hello this is my first post" }]);
 
@@ -38,7 +54,6 @@ exports.getAll = async(req, res, next) => {
 }
 
 exports.updatepostget = async(req, res, next) => {
-    console.log("test create post", req.params.p_Id);
     res.json(await userService.updatePostGet(req.params.p_Id));
     // res.send('succesfully added');
 
@@ -58,11 +73,37 @@ exports.deletepost = async(req, res, next) => {
     res.json({ message: "successfully deleted" });
 
 }
-exports.createcomment = async(req, res, next) => {
-    await userService.createComment(req.params.c_Id, req.userId, req.body);
-    // console.log("comment  uplading ....");
-    console.log(req.userId, req.postId, req.body);
-    res.json({ message: "comment uploaded successfully" });
+exports.addComment = async(req, res, next) => {
+    try{
+        let response = await userService.addComment(req.userId, req.params.postId, req.body);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+
+}
+exports.likePost = async(req, res, next) => {
+    try{
+        let response = await userService.likePost(req.userId, req.params.postId, req.body);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+
+}
+exports.unLikePost = async(req, res, next) => {
+    try{
+        let response = await userService.unLikePost(req.userId, req.params.postId);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 
 }
 exports.updatecomment = async(req, res, next) => {
@@ -76,7 +117,6 @@ exports.updatecomment = async(req, res, next) => {
 }
 exports.updatecommentget = async(req, res, next) => {
     res.json(await userService.updateCommentGet(req.params.p_Id));
-    console.log("test create post", req.params.p_id);
 
 }
 exports.deletecomment = async(req, res, next) => {
@@ -84,7 +124,6 @@ exports.deletecomment = async(req, res, next) => {
     await userService.deleteComment(req.params.d_cid);
     res.json({ message: "comment successfully deleted" });
 
-    console.log("test3");
 
 }
 exports.searchposts = (req, res, next) => {
@@ -93,15 +132,50 @@ exports.searchposts = (req, res, next) => {
 
 }
 
-exports.followuser=(req, res, next) => {
-    console.log(req.params.uid);
-    userService.followUser(req.params.uid);
-    res.json({ message: "Successful following" })
+exports.followUser= async(req, res, next) => {
+    try{
+        let response = await userService.followUser(req.userId, req.params.uid);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
-exports.unFollowuser=(req, res, next) => {
-    userService.unFollowerUser(req.params.uid);
-    return res.json({ message: "Successfully unfollowed" })
+exports.fetchFeed =  async(req, res, next) => {
+    console.log(req.userId, "IS MY ID");
+
+    try{
+        let response = await userService.fetchFeed(req.userId);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+}
+
+exports.getPosts =  async(req, res, next) => {
+    try{
+        let response = await userService.getPosts(req.userId);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
+}
+
+exports.unFollowUser=async(req, res, next) => {
+    try{
+        let response = await userService.unFollowUser(req.userId, req.params.uid);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
 exports.getAllPosts = (req, res, next) => {
@@ -109,27 +183,30 @@ exports.getAllPosts = (req, res, next) => {
 
 }
 
-exports.getFollowers = (req,res,next) => {
+exports.getFollowers = async (req,res,next) => {
     try{
         
-        let result = userService.getFollowers(req.params.userId)
-       return res.json({data:result})
+        let response = await userService.getFollowers(req.userId)
+        console.log(response);
+        res.status(response.status).json(response);
 
     } catch(err){
-        return res.json({error: err})
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
     }
     
     }
 
-exports.getFollowing = (req,res,next) => {
+exports.getFollowings = async (req,res,next) => {
     try{
-
-        let result =    userService.getFollowing(req.params.id)
-        return res.json({data:result})
+        
+        let response = await userService.getFollowings(req.userId)
+        console.log(response);
+        res.status(response.status).json(response);
 
     } catch(err){
-        return res.json({error: err})
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
     }
     
-   
-        }
+    }

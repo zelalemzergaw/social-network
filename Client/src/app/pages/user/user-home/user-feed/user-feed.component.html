@@ -1,12 +1,12 @@
 
-<div class="card create-post">
+<div class="card create-post" >
   <div class="card-body">
        <div class="pic_username">
            <img src="assets/img/mike.jpg" width=30 class=" rounded-circle">
            <span >Jenefer Lawrun</span>
        </div>
         <div class="form-row position: relative">
-          <textarea [(ngModel)]="post" style="color: black" class="form-control"  placeholder="What is in your mind?" id="exampleFormControlTextarea1" >
+          <textarea [(ngModel)]="post.description" style="color: black" class="form-control"  placeholder="What is in your mind?" id="exampleFormControlTextarea1" >
           </textarea>
 
              <!-- <p style="position:absolute;left: 28px;cursor: pointer;z-index: 1;
@@ -19,20 +19,73 @@
                    buttonCaption="browse"
                    dropBoxMessage=""
                    clearButtonCaption=""
-                   url="http://localhost:3000/api/upload"
+                   [url]="IMG_UPLOD_URL" [max]="4" [extensions]="['jpeg','png']"
                    [style]="customStyle">
                 </image-upload>
               </form>
 
-
         </div>
-
-
-
-
-        <button style="float:right; margin-top: 1%"  class="btn-sm btn btn-primary btn-simple">Post</button>
+       <div *ngIf="post_status">
+        <alert class="alert-with-icon" [type]="'success'"  [dismissible]="true">
+          <span class=" tim-icons icon-trophy" data-notify="icon">
+          </span>
+          <span>
+            <b>
+              Heads up! -
+            </b>
+            Successfully created your post!
+          </span>
+        </alert>
+       </div>
+        <button (click)="createPost()" style="float:right; margin-top: 1%"  class="btn-sm btn btn-primary btn-simple">Post</button>
 
   </div>
 
 </div>
-<app-post></app-post>
+<div class="feeds" *ngFor="let feed of feeds "> 
+  <div class="card post" style="border-radius: 12px;">
+    <div class="card-body">
+      <div class="pic_username">
+            <img src="assets/img/mike.jpg" width=30 class=" rounded-circle">
+            <span >{{ feed.postedBy.username}} </span><span style="margin-left: 1%; font-size: 10px;">{{ feed.createdAt | timeAgo }}</span>
+      </div>
+      <div class="post-content">
+           <p style="padding: 2%"> {{ feed.description }}
+          </p>
+           <img width="100%" style="object-fit: cover; max-height: 400px;" class="img-fluid" [src]="feed.images[0]" />
+      </div>
+    </div>
+    <div class="card-footer row">
+           <a [style.color]="isLiked(feed._id)" href="javascript:void(0)" (click)="like(feed._id)" class="col-sm-8"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span style="margin-left: 3px;margin-right: 3px;">Like</span> {{feed.likes.length}}</a>
+           <a style="color: black;" href="javascript:void(0)" class="col-sm-4"><i class="fa fa-comment" aria-hidden="true"></i><span style="margin-left: 3px;margin-right: 3px;">Comments </span>{{feed.comments.length}}</a>
+    </div>
+    <hr style="width: 100%;">
+    <div class="comment" style="padding-left: 3%; padding-right:3%;">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span style="border-color:#e6e6e6" class="input-group-text"><i style="color: black;" class="fa fa-user"></i></span>
+        </div>
+        <input (keyup.enter)="comment($event.target.value, feed._id)" style="border-color:#e6e6e6;color: black;" type="text" class="form-control" placeholder="Write your comment">
+      </div>
+    </div>
+    <div class="comment" style="padding-left: 5%;">
+      <div *ngFor="let comment of feed.comments.reverse()">
+        <div class=" row" style="padding-bottom: 3px; margin-bottom: 2%;">
+          <div class="cols-sm-1" style="margin-right: 5px;">
+            <img src="assets/img/mike.jpg" width=30 class=" rounded-circle">
+            <i class="fa fa-caret-left" aria-hidden="true"></i>
+
+          </div>
+          <div class="col-sm-8" style="background-color: #ececec; border-radius: 8px;">
+              <span style="font-weight: bold;" >{{comment.commentedBy.username}} </span>
+              <span style="font-size: 10px;">{{ comment.createdAt | timeAgo }}</span>
+              <p>{{comment.text}}</p>
+          </div>
+          <div class="col-sm-3"></div>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

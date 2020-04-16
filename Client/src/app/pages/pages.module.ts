@@ -5,6 +5,10 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
 
+import {TimeAgoPipe} from 'time-ago-pipe';
+import { FileUploadModule } from 'ng2-file-upload';
+
+
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
@@ -40,9 +44,14 @@ import { AdminBadwordComponent } from './admin/admin-badword/admin-badword.compo
 import { AdminAdvertismentComponent } from './admin/admin-advertisment/admin-advertisment.component';
 import { ImageUploadModule } from "angular2-image-upload";
 import { AdminNotificationAreaComponent } from './admin/admin-notification-area/admin-notification-area.component';
+import { PeopleComponent } from './user/user-home/explore/people/people.component';
+import { MyPostComponent } from './user/user-home/explore/my-post/my-post.component';
+import { FollowersComponent } from './user/user-home/explore/followers/followers.component';
+import { FollowingsComponent } from './user/user-home/explore/followings/followings.component';
 
 @NgModule({
   imports: [
+    FileUploadModule,
     CommonModule,
     BrowserModule,
     FormsModule,
@@ -63,6 +72,7 @@ import { AdminNotificationAreaComponent } from './admin/admin-notification-area/
     ImageUploadModule.forRoot()
   ],
   declarations: [
+    TimeAgoPipe,
     IndexComponent,
     ProfilepageComponent,
     RegisterpageComponent,
@@ -83,7 +93,11 @@ import { AdminNotificationAreaComponent } from './admin/admin-notification-area/
     AdminPostReviewComponent,
     AdminBadwordComponent,
     AdminAdvertismentComponent,
-    AdminNotificationAreaComponent
+    AdminNotificationAreaComponent,
+    PeopleComponent,
+    MyPostComponent,
+    FollowersComponent,
+    FollowingsComponent
   ],
   exports: [
     IndexComponent,
