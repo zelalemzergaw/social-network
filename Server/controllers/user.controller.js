@@ -210,3 +210,14 @@ exports.getFollowings = async (req,res,next) => {
     }
     
     }
+
+    exports.changeProfilePic = async (req, res, next) => {
+        try{
+            let response = await userService.changeProfilePic(req.userId, req.body.pic);
+            res.status(response.status).json(response);
+        }
+        catch(err) {
+            console.log(err);
+            res.status(500).json(new ApiResponse(500, 'error', err));
+        }
+    }
