@@ -15,7 +15,7 @@ async function getAllPosts() {
 }
 async function createPost(userId, data) {
     const post = new Post({
-        title: data.title,
+        title: "Post",
         description: data.description,
         images: data.images,
         postedBy: userId,
