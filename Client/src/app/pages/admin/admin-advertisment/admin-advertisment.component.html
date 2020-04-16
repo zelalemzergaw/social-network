@@ -1,0 +1,46 @@
+<h4>New Advertisment</h4>
+<form>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Description</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea" placeholder="Advert description here...."></textarea>
+    </div>
+    <div>
+        <!-- http://localhost:3000/api/uploads/profile-image -->
+        <image-upload url="http://localhost:3000/api/uploads/profile-image" [max]="2" [extensions]="['jpeg','png']" [buttonCaption]="'Browse'" [style]="customStyle" (uploadFinished)="onUploadFinished($event)">
+        </image-upload>
+    </div>
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Advertisment settings</legend>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" name="agegroup" style="margin-right: 10px;">Target by age group</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    Max:<input type="number" name="maxAge" min="19" value="19" style="max-width:50%;margin-left: 10px;">
+                </div>
+                <div class="col-md-3">
+                    Min:<input type="number" name="minAge" min="18" value="18" style="max-width:50%;margin-left: 10px;">
+                </div>
+            </div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" name="location" style="margin-right: 10px;">Target by location</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    Location:<input type="text" style="margin-left: 2px;">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <button type="button" class="btn btn-secondary btn-lg btn-block">Create Advertisment</button>
+</form>
+<img [src]="imageUrl">

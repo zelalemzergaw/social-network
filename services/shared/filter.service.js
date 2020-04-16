@@ -1,4 +1,0 @@
-
-function getBadWords(params) {
-    
-}

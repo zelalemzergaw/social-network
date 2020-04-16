@@ -1,0 +1,50 @@
+<div class="card">
+    <div class="card-header">
+      <tabset class="nav-tabs-primary">
+        <tab>
+          <ng-template tabHeading>
+            <span class="nv-link">
+              <i class="tim-icons icon-satisfied"> </i> My posts
+
+            </span>
+          </ng-template>
+          <app-my-post></app-my-post>
+        </tab>
+        <tab>
+          <ng-template tabHeading>
+             <span class="nv-link">
+                  <i class="tim-icons icon-single-02"> </i>
+                  followers
+             </span>
+
+          </ng-template>
+          <p>
+            <app-followers></app-followers>
+          </p>
+        </tab>
+        <tab>
+          <ng-template tabHeading>
+            <span class="nv-link">
+                 <i class="tim-icons icon-single-02"> </i> followings
+            </span>
+
+          </ng-template>
+          <p>
+           <app-followings></app-followings>
+          </p>
+        </tab>
+
+        <tab>
+          <ng-template tabHeading>
+            <span class="nv-link">
+                 <i class="tim-icons icon-single-02"> </i> People
+            </span>
+
+          </ng-template>
+          <p>
+            <app-people></app-people>
+          </p>
+        </tab>
+      </tabset>
+    </div>
+  </div>
