@@ -76,6 +76,10 @@ export class UserService {
     return this.http.get<ApiResponse>(environment.API_URL + "/api/user/followings");
   }
 
+  changeProfilePic(pic) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/change-pic", {pic: pic});
+  }
+
 
 
   
