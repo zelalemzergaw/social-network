@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FileHolder, UploadMetadata } from 'angular2-image-upload';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AdminService } from 'src/app/services/admin.service';
+import {Advertisement, User} from '../../../models';
+import { from } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/services';
+import { LinkyModule } from 'angular-linky';
 
 
 @Component({

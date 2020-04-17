@@ -1,46 +1,69 @@
 <h4>New Advertisment</h4>
-<form>
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Description</span>
+<button type="button" class="btn btn-secondary btn-lg btn-block" (click)="toggleAddPane()">{{buttonName[nameIndex]}}</button>
+<div *ngIf="showNewAdPane">
+    <form [formGroup]="advertisementForm" (ngSubmit)="onCreateNewPost()">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Description</span>
+            </div>
+            <textarea formControlName="advertisementDescriptionTextArea" class="form-control" name="advertisementDescriptionTextArea" aria-label="With textarea" placeholder="Advert description here...." type="text " (focus)="focus=true" (blur)="focus=false"></textarea>
         </div>
-        <textarea class="form-control" aria-label="With textarea" placeholder="Advert description here...."></textarea>
-    </div>
-    <div>
-        <!-- http://localhost:3000/api/uploads/profile-image -->
-        <image-upload url="http://localhost:3000/api/uploads/profile-image" [max]="2" [extensions]="['jpeg','png']" [buttonCaption]="'Browse'" [style]="customStyle" (uploadFinished)="onUploadFinished($event)">
-        </image-upload>
-    </div>
-    <fieldset class="scheduler-border">
-        <legend class="scheduler-border">Advertisment settings</legend>
-        <div class="container-fluid">
-            <div class="row justify-content-center">
+        <div>
+            <image-upload url=" http://localhost:3000/api/uploads/profile-image " [max]="2 " [extensions]="[ 'jpeg', 'png'] " [buttonCaption]=" 'Browse' " [style]="customStyle " (uploadFinished)="onUploadFinished($event) ">
+            </image-upload>
+        </div>
+        <fieldset class="scheduler-border ">
+            <legend class="scheduler-border ">Advertisment settings</legend>
+            <div class="container-fluid ">
+                <div class="row justify-content-center ">
 
-                <div class="col-md-6">
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" name="agegroup" style="margin-right: 10px;">Target by age group</label>
+                    <div class="col-md-6 ">
+                        <div class="checkbox ">
+                            <label><input formControlName ="targetAgeCheckBox" type="checkbox" value=" " name="targetAgeCheckBox " style="margin-right: 10px; ">Target by age group</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        Min:<input formControlName="minAge" type="number" name="minAge " min="18" value="18" style="max-width:50%;margin-left: 10px; ">
+                    </div>
+                    <div class="col-md-3 ">
+                        Max:<input formControlName="maxAge" type="number" name="maxAge" min="19" value="19" style="max-width:50%;margin-left: 10px; ">
                     </div>
                 </div>
-                <div class="col-md-3">
-                    Min:<input type="number" name="maxAge" min="18" value="18" style="max-width:50%;margin-left: 10px;">
-                </div>
-                <div class="col-md-3">
-                    Max:<input type="number" name="minAge" min="19" value="19" style="max-width:50%;margin-left: 10px;">
-                </div>
-            </div>
-            <br>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" name="location" style="margin-right: 10px;">Target by location</label>
+                <br>
+                <div class="row justify-content-center ">
+                    <div class="col-md-6 ">
+                        <div class="checkbox ">
+                            <label><input formControlName="targetLocationCheckBox" type="checkbox" value=" " name="targetLocationCheckBox " style="margin-right: 10px; ">Target by location</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        Location:<input formControlName="location" name="location" type="text" style="margin-left: 2px; ">
                     </div>
                 </div>
-                <div class="col-md-6">
-                    Location:<input type="text" style="margin-left: 2px;">
-                </div>
             </div>
+        </fieldset>
+        <button type="button " class="btn btn-secondary btn-lg btn-block">Create Advertisment</button>
+    </form>
+</div>
+<h2> Current Active Advertisements</h2>
+
+<div class="card post" *ngFor="let advert of allAdvertisements; let arrayIndex=index">
+    <div class="card-body ">
+        <div class="post-content ">
+            <div class="form-group">
+                <!-- <span [innerHTML]="{{advert.description}} | linky"></span> -->
+                <label for="exampleFormControlTextarea1">Example textarea</label>
+                <textarea [disabled]=advertTextAreaStatus class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{advert.description}}" style="background-color: blanchedalmond;"></textarea>
+            </div>
+            <img ng-src="{{advert.imageUrl[0]}}" />
         </div>
-    </fieldset>
-    <button type="button" class="btn btn-secondary btn-lg btn-block">Create Advertisment</button>
-</form>
-<img [src]="imageUrl">
+    </div>
+    <div class="card-footer row ">
+        <p class="col-sm-6 ">
+            <button class="btn btn-primary " name="editAdvert " (click)="editThisAdvert(advert._id) ">Edit</button>
+        </p>
+        <p class="col-sm-6 ">
+            <button class="btn btn-primary " name="deleteAdvert " style="float:right; " (click)="deleteThisAdvert(arrayIndex) ">Delete</button>
+        </p>
+    </div>
+</div>
