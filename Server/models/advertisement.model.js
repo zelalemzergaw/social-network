@@ -1,30 +1,28 @@
 const mongoose = require('mongoose');
 
 const adSchema = new mongoose.Schema({
-    text: {
+    description: {
         type: String
     },
-    link: {
-        type: String
-    },
-    images: [],
+    imageUrl: [],
     postedBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
     },
     datePublished: {
-        type: Date, 
+        type: Date,
         default: Date.now()
     },
-    targetedUser: {
-         age: {
-             type: Number
-         },
-         location: {
-             type: String
-         }
-    }  
-}, {timestamps: true});
+    minAge: {
+        type: Number
+    },
+    maxAge: {
+        type: Number
+    },
+    targetLocation: {
+        type: String
+    }
+}, { timestamps: true });
 module.exports = mongoose.model("Advertisement", adSchema);
 
 // {timestamps: true} ===> createdAt and updateAt

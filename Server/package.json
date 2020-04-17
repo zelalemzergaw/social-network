@@ -7,6 +7,8 @@
         "start": "nodemon app.js"
     },
     "dependencies": {
+        "angular-linky": "^1.2.2",
+        "angular-sanitize": "^1.7.9",
         "angular-notifier": "^6.0.1",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",

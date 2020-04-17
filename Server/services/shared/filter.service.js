@@ -1,6 +1,7 @@
 const fs = require('fs'),
     path = require('path'),
-    util = require('util');
+    util = require('util'),
+    { Badword } = require(path.join(__dirname, '..', '..', 'models'));
 
 
 module.exports = (() => {
@@ -27,6 +28,7 @@ module.exports = (() => {
                 listOfBadwords.badwords.push(bWord);
                 saveBadWord(listOfBadwords).then(() => {}).catch(err => console.log(err))
             }
+            return listOfBadwords;
 
         }
         /**
@@ -34,10 +36,14 @@ module.exports = (() => {
          * @param {a complete JSON object that comes from teh front end} updatedBadWordList 
          */
     const updateBadWordList = (updatedBadWordList) => {
-            saveBadWord(updatedBadWordList).then(() => {
-                listOfBadwords = updateBadWordList;
+            let newUpdatedList = {
+                "badwords": updatedBadWordList
+            }
+            saveBadWord(newUpdatedList).then(() => {
+                listOfBadwords.badwords = [];
+                listOfBadwords.badwords = [...updatedBadWordList];
             }).catch(err => console.log(err))
-
+            return listOfBadwords;
         }
         /**
          * one remove one word at a time
@@ -78,3 +84,25 @@ module.exports = (() => {
 
 
 })();
+
+// async function getAllBadWords() {
+//     return await Badword.find();
+// }
+
+// async function addBadWord(newBadWord) {
+//     console.log('IN BAD WORD SERVICE', newBadWord)
+//     const _newBadWord = new Badword({
+//         word: newBadWord
+//     });
+//     return await _newBadWord.save();
+// }
+
+// async function deleteBadWord(badWord_id) {
+//     return await Badword.findByIdAndRemove({ _id: badWord_id });
+// }
+// module.exports = {
+//     getAllBadWords,
+//     addBadWord,
+//     deleteBadWord
+
+// }

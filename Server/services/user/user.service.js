@@ -135,6 +135,7 @@ async function deleteComment(params) {
     });
 }
 
+
 async function changeProfilePic(id, pic) {
     await User.updateOne({_id: id}, { photo: pic});
     return new ApiResponse(200, 'success', {});
@@ -142,19 +143,20 @@ async function changeProfilePic(id, pic) {
 
 async function updateUser(id, data) {
     await User.updateOne({ _id: id }, {
-        $set: { firstname: data.firstname,
-             lastname: data.lastname,
-             birthday: data.birthday,
-             location: data.location,
-             email: data.email
-             }
+        $set: {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            birthday: data.birthday,
+            location: data.location,
+            email: data.email
+        }
 
     });
 
 }
 async function getUserById(id) {
-    let result = await  User.findById({ _id: id });
-    return  new ApiResponse(200, "success", result);
+    let result = await User.findById({ _id: id });
+    return new ApiResponse(200, "success", result);
 }
 
 async function getAllUsers() {
@@ -217,9 +219,9 @@ function getSearchResults(this_User_id, search_Phrase) {
         .populate('postedBy')
         .execPopuate();
 }
-async function updateUserAdvt(id,update){
-    console.log(id,update ,'id print');
-    await User.updateOne({_id:id},{advetisements: {$push: update}});
+async function updateUserAdvt(id, update) {
+    console.log(id, update, 'id print');
+    await User.updateOne({ _id: id }, { advetisements: { $push: update } });
 
 }
 
@@ -228,6 +230,7 @@ async function updateUserAdvt(id,update){
  * @param {is the id of the user who is making the followers and Following} this_User_id 
  * @param {is action click into the follow button} 
  */
+
 
  async function getFollowers(id) {
     let user = await User.findById({_id: id});
@@ -276,6 +279,7 @@ async function followUser(id,uId, app) {
  * @param {is action click into the follow button} 
  */
 
+
 async function unFollowUser(id,uId){
     let u1 = await User.findById({_id: id});
     let u2 = await User.findById({_id: uId});
@@ -298,6 +302,9 @@ async function unFollowUser(id,uId){
  * @param {is the id of the user who is making the get followers } this_User_id 
  * @param {is action click into the follow button} 
  */
+
+async function getFollers(userId) {
+    await User.findById({ _id: userId });
 
 async function _getUser(userId){
      return await User.findById({_id: userId});
@@ -322,14 +329,20 @@ async function getPosts(userId) {
     return new ApiResponse(200, "success", result);
 }
 
-   /**
+}
+
+/**
  * 
  * @param {is the id of the user who is making the get followering } this_User_id 
  * @param {is action click into the follow button} 
  */
 
-async function getFollowing(id){
-      await User.findById({_id:id});
+async function getFollowing(id) {
+    await User.findById({ _id: id });
+}
+
+async function _getUserById(id) {
+    return await User.findById(id);
 }
 
 module.exports = {
@@ -351,6 +364,8 @@ module.exports = {
     updateUserAdvt,
     unFollowUser,
     getFollowing,
+    getFollers,
+    _getUserById
     getAllUsers,
     fetchFeed,
     getPosts,

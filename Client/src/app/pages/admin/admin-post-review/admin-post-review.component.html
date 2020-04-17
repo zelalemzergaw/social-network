@@ -13,10 +13,10 @@
     </div>
     <div class="card-footer row">
         <p class="col-sm-6">
-            <button class="btn btn-primary" type="submit" name="acceptBtn">Accept</button>
+            <button class="btn btn-primary" type="submit" name="acceptBtn" (click)="approvePost(post)">Accept</button>
         </p>
         <p class="col-sm-6">
-            <button class="btn btn-primary" type="submit" name="rejectBtn" style="float: right;">Reject</button>
+            <button class="btn btn-primary" type="submit" name="rejectBtn" style="float: right;" (click)="rejectPost(post)">Reject</button>
         </p>
     </div>
 </div>

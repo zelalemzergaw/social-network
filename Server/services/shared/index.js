@@ -1,5 +1,5 @@
 const
-    path = require('path'), 
+    path = require('path'),
     filterService = require(path.join(__dirname, 'filter.service')),
     mailerService = require(path.join(__dirname, 'mailer.service'));
 
