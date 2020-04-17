@@ -35,7 +35,8 @@ const postSchema = new mongoose.Schema({
 
     }],
     stuatus: {
-        type: String
+        type: String,
+        default: "ok"
     },
 
 }, { timestamps: true });

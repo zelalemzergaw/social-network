@@ -6,8 +6,8 @@ const fs = require('fs'),
  * Checks a word to be a bad word 
  * @param {a word to be checked if is bad word} word 
  */
-function isBadWord(word) {
-    let badWordList = filterService.getBadWordList();
+async function isBadWord(word) {
+    let badWordList =await filterService.getBadWordList();
     return badWordList.includes(word);
 }
 /**

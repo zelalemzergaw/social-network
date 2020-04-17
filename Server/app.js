@@ -3,7 +3,8 @@ const express = require('express'),
     path = require('path'),
     dotenv = require('dotenv'),
     mongoose = require('mongoose'),
-    { initRoutes } = require(path.join(__dirname, 'routes'));
+    { initRoutes } = require(path.join(__dirname, 'routes')),
+    { wsService } = require(path.join(__dirname, 'services'));;
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 //     res.setHeader('Access-Control-Allow-Credentials', true);
 //     next();
 //   });
+wsService(app);
 app.use(express.static(path.join(__dirname, "resources/images")))
 initRoutes(app);
 

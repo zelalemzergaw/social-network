@@ -26,7 +26,7 @@
               <i aria-hidden="true" class="tim-icons icon-send"> </i>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" style="border-radius: 58px;background-color: #e4e6eb;">
             <a class="nav-link" href="javascript:void(0)">
               <i aria-hidden="true" class="tim-icons icon-bell-55">
               </i>
@@ -64,5 +64,10 @@
       </div>
     </div>
   </nav>
-
+    <div class="card" style="background-color: white;height: 800px; padding: 4%; overflow: scroll;">
+      <alert [type]="'info'" [dismissible]="true" *ngFor="let noti of userNoti.notifications.reverse()">
+        {{ noti.message }}
+        <span style="font-size: 10px;;">{{noti.createdAt | timeAgo}}</span>
+      </alert>  
+    </div>
 </div>

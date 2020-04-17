@@ -4,7 +4,9 @@ const
     fs = require('fs'),
     util = require('util'),
     stopWordPath = path.join(__dirname, '..', '..', 'resources/stop-words/stopWords.json'),
-    { User, Post, Ad } = require(path.join(__dirname, '..', '..', 'models'));
+    { User, Post, Ad } = require(path.join(__dirname, '..', '..', 'models')),
+    notificationService = require('../notification'),
+    systemService = require("../system");
 
 
 
@@ -13,7 +15,7 @@ async function getAllPosts() {
     //console.log("test1"); 
 
 }
-async function createPost(userId, data) {
+async function createPost(userId, data, app) {
     const post = new Post({
         title: "Post",
         description: data.description,
@@ -21,7 +23,24 @@ async function createPost(userId, data) {
         postedBy: userId,
 
     });
-   let result =  await post.save();
+    let result;
+    let review = await systemService.notSafeForPost(data.description);
+    console.log("REVIEW RESULT", review);
+    // if(review) {
+    //     post.status = "onhold";
+    //     result = await post.save();
+    //     await notificationService.badPostNotification(userId, result, app);
+        
+    // }else {
+    //     result = await post.save();
+    //     await notificationService.newPostNotification(userId, result, app);
+
+    // }
+    result = await post.save();
+    await notificationService.newPostNotification(userId, result, app);
+
+    
+    
     return new ApiResponse(200, "success", result);
 }
 
@@ -52,7 +71,7 @@ async function getPost(p_id) {
 }
 
 
-async function addComment(id, postId, data) {
+async function addComment(id, postId, data, app) {
     await Post.updateOne({ _id: postId }, {
         $push: {
             comments: {
@@ -61,12 +80,13 @@ async function addComment(id, postId, data) {
             }
         }
     });
+    
+    await notificationService.commentNotification(id, postId, app);
     return new ApiResponse(200, "success", {});
 
 }
 
-async function likePost(id, postId, data) {
-    console.log("LIKE")
+async function likePost(id, postId, data, app) {
 
     await Post.updateOne({ _id: postId }, {
         $push: {
@@ -75,6 +95,7 @@ async function likePost(id, postId, data) {
             }
         }
     });
+    await notificationService.likeNotification(id, postId, app);
     return new ApiResponse(200, "success", {});
 
 }
@@ -227,7 +248,7 @@ async function updateUserAdvt(id,update){
     return new ApiResponse(200, "success", Myfollowings);
     
  } 
-async function followUser(id,uId) {
+async function followUser(id,uId, app) {
     await User.updateOne({ _id: id }, {
         $addToSet: {
             following: {
@@ -244,6 +265,7 @@ async function followUser(id,uId) {
             }
         }
     });
+  await  notificationService.followNotification(id, uId, app)
 
     return new ApiResponse(200, "success", {});
 }

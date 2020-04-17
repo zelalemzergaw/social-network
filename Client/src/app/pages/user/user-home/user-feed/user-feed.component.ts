@@ -56,6 +56,10 @@ export class UserFeedComponent implements OnInit {
   ngOnInit(): void {
     this.initPost();
      this.fetchPostFeeds();
+
+     this.userService.postSubject.subscribe(re => {
+       this.fetchPostFeeds();
+     })
   }
 
   fetchPostFeeds() {
@@ -82,7 +86,7 @@ export class UserFeedComponent implements OnInit {
            this.post.createdAt = Date.now();
            this.post.likes = [];
            this.post.comments = [];
-           this.feeds.unshift(this.post);
+           this.feeds.unshift(response.result);
          })
     console.log("NEW", this.post);
 

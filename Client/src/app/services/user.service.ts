@@ -4,7 +4,8 @@ import { User, Post } from '../models';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../util';
 import { first } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { AuthenticationService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,34 @@ import { Subject } from 'rxjs';
 export class UserService {
   currentUser:any;
   allUsers = [];
-
+  private socket: WebSocket;
   public peopleFollow = new Subject<any>();
   public followers = new Subject<any>();
   public followings = new Subject<any>();
+
+  public postSubject = new Subject<any>();
+
+  // public notificationSubject = new BehaviorSubject<any>();
   
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private authService: AuthenticationService) { 
+    this.connect();
+    console.log("MOTHER FUCKER", this.authService.getCurrentUser());
+  }
+
+  private connect() {
+      this.socket = new WebSocket(environment.API_SOCKET_URL);
+      this.socket.onopen = (event) => {
+          this.socket.send(JSON.stringify({token: this.getCurrrentUser().access_token}));
+      }
+
+      this.socket.onmessage = (event) => {
+        this.postSubject.next();
+        console.log(event.data, 'FROM SERVER');
+      }
 
   }
+  
 
   getUserById(id) {
     return this.http.get<ApiResponse>(environment.API_URL + "/api/users/" + id);
