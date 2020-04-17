@@ -12,4 +12,5 @@ export class User {
   access_token?: string;
   following: any[];
   photo: any;
+  notifications: any[];
 }

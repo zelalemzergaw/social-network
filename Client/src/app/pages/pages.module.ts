@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { FileUploadModule } from 'ng2-file-upload';
 
+import { NotifierModule } from "angular-notifier";
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
@@ -51,6 +52,7 @@ import { FollowingsComponent } from './user/user-home/explore/followings/followi
 
 @NgModule({
   imports: [
+    NotifierModule,
     FileUploadModule,
     CommonModule,
     BrowserModule,

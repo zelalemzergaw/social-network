@@ -1,4 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+      path = require('path'),
+      { notiTypes } = require(path.join(__dirname, "..", "util"));
+      
 
 const userSchema = new mongoose.Schema({
     firstname: {
@@ -80,7 +83,28 @@ const userSchema = new mongoose.Schema({
     },
     resetToken: {
         type: String
-    }
+    },
+    notifications: [{
+        notiType: {
+            type: Number,
+            enum: Object.values(notiTypes),
+        },
+        post: {
+            type: mongoose.Types.ObjectId,
+            ref: "Post"
+        },
+        user: {
+            type: mongoose.Types.ObjectId,
+            ref: "User"
+        },
+        message: {
+            type: String
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now()
+        },
+   }]
 
 
 });

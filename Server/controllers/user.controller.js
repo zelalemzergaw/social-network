@@ -35,7 +35,7 @@ exports.updateUser = async (req, res, next) =>{
 
 exports.createPost = async (req, res, next) => {
     try{
-        let response = await userService.createPost(req.userId, req.body);
+        let response = await userService.createPost(req.userId, req.body, req.app);
         res.status(response.status).json(response);
     }
     catch(err) {
@@ -75,7 +75,7 @@ exports.deletepost = async(req, res, next) => {
 }
 exports.addComment = async(req, res, next) => {
     try{
-        let response = await userService.addComment(req.userId, req.params.postId, req.body);
+        let response = await userService.addComment(req.userId, req.params.postId, req.body, req.app);
         res.status(response.status).json(response);
     }
     catch(err) {
@@ -86,7 +86,7 @@ exports.addComment = async(req, res, next) => {
 }
 exports.likePost = async(req, res, next) => {
     try{
-        let response = await userService.likePost(req.userId, req.params.postId, req.body);
+        let response = await userService.likePost(req.userId, req.params.postId, req.body, req.app);
         res.status(response.status).json(response);
     }
     catch(err) {
@@ -134,7 +134,7 @@ exports.searchposts = (req, res, next) => {
 
 exports.followUser= async(req, res, next) => {
     try{
-        let response = await userService.followUser(req.userId, req.params.uid);
+        let response = await userService.followUser(req.userId, req.params.uid, req.app);
         res.status(response.status).json(response);
     }
     catch(err) {
