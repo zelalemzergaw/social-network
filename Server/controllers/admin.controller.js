@@ -2,26 +2,19 @@ const path = require('path'),
     { ApiResponse } = require(path.join(__dirname, '..', 'util')),
     { adminService } = require(path.join(__dirname, '..', 'services'));
 
-
-exports.createAd = (req, res, next) => {
-    res.send("Adming is working");
-}
-
 exports.getBadWords = async(req, res, next) => {
     try {
-        let response = await adminService.getBadWords()
+        let response = await adminService.getBadWords();
         res.status(response.status).json(response);
     } catch (err) {
-        res.status(500).json(new ApiResponse(500, "error", err))
+        res.status(500).json(new ApiResponse(500, 'error', err));
     }
-
-
 }
 
-exports.addBadWord = (req, res, next) => {
+exports.addBadWord = async(req, res, next) => {
     try {
-        let modifiedBadWords = adminService.addBadWord(req.body.newBadWord);
-        res.status(modifiedBadWords.status).json(modifiedBadWords);
+        let allBadWords = await adminService.addBadWord(req.body.newBadWord);
+        res.status(allBadWords.status).json(allBadWords);
     } catch (err) {
         res.status(500).json(new ApiResponse(500, "error", err))
     }
@@ -38,15 +31,26 @@ exports.updateBadWord = (req, res, next) => {
         let updatedBadWords = adminService.updateBadWordList(req.body);
         res.status(updatedBadWords.status).json(updatedBadWords);
     } catch (err) {
-        res.status(500).json(new ApiResponse(500, "error", err))
+        res.status(500).json(new ApiResponse(500, "err", err))
     }
 }
-exports.createAd = (req, res, next) => {
-    console.log('adversr controller..');
-    adminService.addAdvertisement(req.userId, req.body)
-        .then(result => {
-            res.json({ message: "You have successfully created advertisement" });
-        }).catch(err => res.send(err));
+
+exports.createAd = async(req, res, next) => {
+    try {
+        let result = await adminService.addAdvertisement(req.body);
+        res.status(200).json(new ApiResponse(200, "success", result));
+    } catch (err) {
+        res.status(500).json(new ApiResponse(500, "err", err))
+    }
+}
+
+exports.getAllAdverts = async(req, res, next) => {
+    try {
+        let result = await adminService.getAllAdvertisements();
+        res.status(200).json(new ApiResponse(200, "success", result));
+    } catch (err) {
+        res.status(500).json(new ApiResponse(500, "err", err));
+    }
 }
 
 exports.editAdvertisement = async(req, res, next) => {
@@ -61,18 +65,54 @@ exports.editAdvertisement = async(req, res, next) => {
 
 exports.getAdv = async(req, res, next) => {
     try {
-        return res.json(await adminService.getAdvertisement(req.params.id))
+        return res.json(await adminService.getAdvertisement(req.params.id));
     } catch (err) {
         return res.json({ error: err })
-
 
     }
 }
 
-exports.deleteAdv = (req, res, next) => {
-    adminService.deleteAd(req.params.id)
-        .then(result => {
-            res.json({ message: "You have successfully deleted advertisement" });
-            //res.redirect(console.log('You have successfully delete advertisement'))
-        }).catch(err => console.log(err));
+exports.deleteAdvertisement = async(req, res, next) => {
+    try {
+        let result = await adminService.deleteAd(req.body._id);
+        res.status(200).json(new ApiResponse(200, "success", result));
+    } catch (err) {
+        res.status(500).json(new ApiResponse(500, "err", err));
+    }
+}
+exports.approvePost = async(req, res, next) => {
+    try {
+        let result = await adminService.approveThisPost(req.body);
+        res.status(200).json(new ApiResponse(200, "success", result));
+    } catch (err) {
+        res.status(500).json(new ApiResponse(500, "err", err));
+    }
+
+}
+exports.rejectPost = async(req, res, next) => {
+    try {
+        let result = await adminService.rejectThisPost(req.body);
+        res.status(200).json(new ApiResponse(200, "success", result));
+    } catch (err) {
+        res.status(500).json(new ApiResponse(500, "err", err));
+    }
+}
+
+exports.activateUserAccount = async(req, res, next) => {
+    try {
+        let result = await adminService.activateThisAccount(req.body);
+        res.status(200).json(new ApiResponse(200, "success", result));
+    } catch (err) {
+        res.status(500).json(new ApiResponse(500, "err", err));
+    }
+
+}
+exports.getDeactivatedUserAccounts = async(req, res, next) => {
+    try {
+        let result = await adminService.getDeactivatedAccounts();
+        res.status(200).json(new ApiResponse(200, "success", result));
+    } catch (err) {
+        res.status(500).json(new ApiResponse(500, "err", err));
+    }
+
 }
