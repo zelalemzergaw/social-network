@@ -365,7 +365,7 @@ module.exports = {
     unFollowUser,
     getFollowing,
     getFollers,
-    _getUserById
+    _getUserById,
     getAllUsers,
     fetchFeed,
     getPosts,
