@@ -65,7 +65,7 @@
     </div>
   </nav>
     <div class="card" style="background-color: white;height: 800px; padding: 4%; overflow: scroll;">
-      <alert [type]="'info'" [dismissible]="true" *ngFor="let noti of userNoti.notifications.reverse()">
+      <alert [type]="'info'" [dismissible]="true" *ngFor="let noti of userNoti.notifications">
         {{ noti.message }}
         <span style="font-size: 10px;;">{{noti.createdAt | timeAgo}}</span>
       </alert>  

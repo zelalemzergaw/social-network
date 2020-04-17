@@ -9,12 +9,13 @@ import { User } from 'src/app/models';
   styleUrls: ['./right.component.scss']
 })
 export class RightComponent implements OnInit {
-  userNoti: any;
+  userNoti = new User();
   constructor(private authService: AuthenticationService,
      private userService: UserService,
      private router: Router) {
 
     this.userService.postSubject.subscribe(e => {
+        this.userNoti.notifications = [];
          this.getNotification();
     })
    }  
@@ -26,9 +27,7 @@ export class RightComponent implements OnInit {
   getNotification() {
     this.userService.getUserById(this.userService.getCurrrentUser()._id).subscribe(response => {
       this.userNoti = (response.result);
-      if(!this.userNoti.notifications) {
-        this.userNoti.notifications = [];
-      }
+      this.userNoti.notifications = this.userNoti.notifications.reverse();
  });
   }
 
