@@ -12,9 +12,11 @@ export class AdminBadwordComponent implements OnInit {
   badWordForm: FormGroup;
   loading = false;
   submitted = false;
+  showMeBadWords = false;
+  buttonName =['Show bad words','Hide bad words']; 
+  nameIndex = 0;
   error = "";
-  allBwords:any
-
+  allBwords:Array<string>;
 
   constructor(private adminService:AdminService, 
     private formBuilder: FormBuilder ) { 
@@ -26,7 +28,8 @@ export class AdminBadwordComponent implements OnInit {
   ngOnInit(): void {
       this.adminService.getBadWords().pipe(first())
                                .subscribe(badword =>{
-           this.allBwords = badword.result; 
+                                  this.allBwords = badword.result; 
+                                  console.log(this.allBwords)
           });
  }
  onSubmit(){
@@ -36,11 +39,12 @@ export class AdminBadwordComponent implements OnInit {
                   .pipe(first())
                   .subscribe(
                     data=>{
+                      console.log(data)
                       if(data.status ===401){
                         this.error = data.message;
                       }
                       else{
-                        this.allBwords= data.result.badwords;
+                        this.allBwords.push(data.result.word);
                       }
 
                     }
@@ -48,23 +52,32 @@ export class AdminBadwordComponent implements OnInit {
 
    
  }
- onRemoveBadWord(index:number){
-   this.allBwords.splice(index,1);
-console.log('INSIDE REMOVE',this.allBwords)
+ onRemoveBadWord(index){ 
+  this.allBwords.splice(index,1);
    this.adminService.updateBadWords(this.allBwords)
                         .pipe(first())
                         .subscribe(
-                          data=>{
-                            if(data.status ===401){
-                              this.error = data.message;
+                          response=>{
+                            if(response.status ===401){
+                              this.error = response.message;
                             }
                             else{
-                              this.allBwords= data.result.badwords;
+                              this.allBwords= response.result.badwords;
                             }
       
                           }
                         )
  }
+ toggleBadWords(){
+   if(!this.showMeBadWords){
+     this.showMeBadWords = true;
+     this.nameIndex =1;
+   }
+   else{
+     this.showMeBadWords = false; 
+     this.nameIndex = 0;
+   }
 
+ }
 
 }

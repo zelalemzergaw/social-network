@@ -11,14 +11,18 @@
         <button type="button " class="btn btn-default ">Add Word</button>
     </form>
 </fieldset>
-<fieldset class="scheduler-border ">
-    <legend class="scheduler-border ">Current Bad Words</legend>
-    <div class="col-md-12 ">
-        <h4>Click on the word to remove it</h4>
-        <span class="badge badge-default " style="margin: 1%; " *ngFor="let baword of allBwords; let i = index">{{baword}}
-            <button class="btn btn-primary btn-fab btn-icon btn-round" (click)="onRemoveBadWord(i)">
-                <i class="tim-icons icon-simple-remove "></i>
-           </button>
-        </span>
-    </div>
-</fieldset>
+
+<button type="button" class="btn btn-default " (click)="toggleBadWords()">{{buttonName[nameIndex]}}</button>
+<div *ngIf="showMeBadWords">
+    <fieldset class="scheduler-border ">
+        <legend class="scheduler-border ">Current Bad Words</legend>
+        <div class="col-md-12 ">
+            <h4>Click on the word to remove it</h4>
+            <span class="badge badge-default " style="margin: 1%; " *ngFor="let baword of allBwords; let i = index">{{baword}}
+                <button class="btn btn-primary btn-fab btn-icon btn-round" (click)="onRemoveBadWord(i)">
+                    <i class="tim-icons icon-simple-remove "></i>
+               </button>
+            </span>
+        </div>
+    </fieldset>
+</div>
