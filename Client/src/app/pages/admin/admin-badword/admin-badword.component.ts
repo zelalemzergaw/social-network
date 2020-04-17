@@ -39,12 +39,13 @@ export class AdminBadwordComponent implements OnInit {
                   .pipe(first())
                   .subscribe(
                     data=>{
+                      console.log(data.result);
                       console.log(data)
                       if(data.status ===401){
                         this.error = data.message;
                       }
                       else{
-                        this.allBwords.push(data.result.word);
+                        this.allBwords = data.result.badwords
                       }
 
                     }
