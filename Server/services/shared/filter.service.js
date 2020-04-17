@@ -1,6 +1,7 @@
 const fs = require('fs'),
     path = require('path'),
-    util = require('util');
+    util = require('util'),
+    { Badword } = require(path.join(__dirname, '..', '..', 'models'));
 
 
 module.exports = (() => {
@@ -83,3 +84,25 @@ module.exports = (() => {
 
 
 })();
+
+// async function getAllBadWords() {
+//     return await Badword.find();
+// }
+
+// async function addBadWord(newBadWord) {
+//     console.log('IN BAD WORD SERVICE', newBadWord)
+//     const _newBadWord = new Badword({
+//         word: newBadWord
+//     });
+//     return await _newBadWord.save();
+// }
+
+// async function deleteBadWord(badWord_id) {
+//     return await Badword.findByIdAndRemove({ _id: badWord_id });
+// }
+// module.exports = {
+//     getAllBadWords,
+//     addBadWord,
+//     deleteBadWord
+
+// }

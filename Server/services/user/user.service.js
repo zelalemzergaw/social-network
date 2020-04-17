@@ -92,23 +92,24 @@ async function deleteComment(params) {
 
 function followUser(params) {
 
-} 
+}
 
 async function updateUser(id, data) {
     await User.updateOne({ _id: id }, {
-        $set: { firstname: data.firstname,
-             lastname: data.lastname,
-             birthday: data.birthday,
-             location: data.location,
-             email: data.email
-             }
+        $set: {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            birthday: data.birthday,
+            location: data.location,
+            email: data.email
+        }
 
     });
 
 }
 async function getUserById(id) {
-    let result = await  User.findById({ _id: id });
-    return  new ApiResponse(200, "success", result);
+    let result = await User.findById({ _id: id });
+    return new ApiResponse(200, "success", result);
 }
 
 /**
@@ -166,9 +167,9 @@ function getSearchResults(this_User_id, search_Phrase) {
         .populate('postedBy')
         .execPopuate();
 }
-async function updateUserAdvt(id,update){
-    console.log(id,update ,'id print');
-    await User.updateOne({_id:id},{advetisements: {$push: update}});
+async function updateUserAdvt(id, update) {
+    console.log(id, update, 'id print');
+    await User.updateOne({ _id: id }, { advetisements: { $push: update } });
 
 }
 
@@ -178,7 +179,7 @@ async function updateUserAdvt(id,update){
  * @param {is action click into the follow button} 
  */
 
-async function followUser(id,uId) {
+async function followUser(id, uId) {
     await User.updateOne({ _id: id }, {
         $addToSet: {
             following: {
@@ -204,18 +205,20 @@ async function followUser(id,uId) {
  * @param {is action click into the follow button} 
  */
 
-async function unFollowerUser(id,uId){
-    await User.findOneUpdate({_id:id},{
-        $pull:{
+async function unFollowerUser(id, uId) {
+    await User.findOneUpdate({ _id: id }, {
+        $pull: {
             following: {
                 followingID: id
-        }}
+            }
+        }
     })
-    await User.findOneUpdate({_id:uId},{
-        $pull:{
+    await User.findOneUpdate({ _id: uId }, {
+        $pull: {
             followers: {
                 followerID: uId
-        }}
+            }
+        }
     })
 }
 
@@ -225,19 +228,23 @@ async function unFollowerUser(id,uId){
  * @param {is action click into the follow button} 
  */
 
-async function getFollers(userId){
-     await User.findById({_id: userId});
-   
-   }
+async function getFollers(userId) {
+    await User.findById({ _id: userId });
 
-   /**
+}
+
+/**
  * 
  * @param {is the id of the user who is making the get followering } this_User_id 
  * @param {is action click into the follow button} 
  */
 
-async function getFollowing(id){
-      await User.findById({_id:id});
+async function getFollowing(id) {
+    await User.findById({ _id: id });
+}
+
+async function _getUserById(id) {
+    return await User.findById(id);
 }
 
 module.exports = {
@@ -258,6 +265,7 @@ module.exports = {
     followUser,
     unFollowerUser,
     getFollowing,
-    getFollers
-    
+    getFollers,
+    _getUserById
+
 }

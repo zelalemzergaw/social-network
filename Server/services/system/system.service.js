@@ -1,13 +1,13 @@
 const fs = require('fs'),
     path = require('path'),
     util = require('util'),
-    { filterService } = require(path.join(__dirname, '..', 'shared'));
+    { badWordService } = require(path.join(__dirname, '..', 'shared'));
 /**
  * Checks a word to be a bad word 
  * @param {a word to be checked if is bad word} word 
  */
 function isBadWord(word) {
-    let badWordList = filterService.getBadWordList();
+    let badWordList = badWordService.getBadWordList();
     return badWordList.includes(word);
 }
 /**
