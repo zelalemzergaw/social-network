@@ -111,6 +111,10 @@ export class UserService {
     return this.http.post<ApiResponse>(environment.API_URL + "/api/user/change-pic", {pic: pic});
   }
 
+  updateUser(data) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/update-user", data);
+  }
+
 
 
   
