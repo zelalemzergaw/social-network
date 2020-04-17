@@ -152,6 +152,7 @@ async function updateUser(id, data) {
         }
 
     });
+    return new ApiResponse(200, 'success', {});
 
 }
 async function getUserById(id) {
@@ -359,6 +360,7 @@ module.exports = {
     getFollowings,
     changeProfilePic,
     fetchFeed,
-    getPosts
+    getPosts,
+    updateUser
 
 }
