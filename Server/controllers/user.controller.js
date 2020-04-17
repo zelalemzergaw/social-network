@@ -28,9 +28,14 @@ exports.getAllUsers = async (req, res, next) => {
 
 
 exports.updateUser = async (req, res, next) =>{
-
-    await userService.updateUser(req.params.id, req.data);
-    res.json({message: "successfully updated"});
+    try{
+        let response = await userService.updateUser(req.userId, req.body);
+        res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
 exports.createPost = async (req, res, next) => {
