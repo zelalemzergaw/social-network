@@ -9,5 +9,8 @@ export class User {
   birthdate: string;
   location: string;
   role: Role;
-  access_token?: string
+  access_token?: string;
+  following: any[];
+  photo: any;
+  notifications: any[];
 }

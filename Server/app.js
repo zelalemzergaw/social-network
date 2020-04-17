@@ -1,12 +1,13 @@
 const express = require('express'),
+     cors = require('cors'),
     path = require('path'),
     dotenv = require('dotenv'),
     mongoose = require('mongoose'),
-    { initRoutes } = require(path.join(__dirname, 'routes'));
+    { initRoutes } = require(path.join(__dirname, 'routes')),
+    { wsService } = require(path.join(__dirname, 'services'));;
 
 dotenv.config();
 const app = express();
-var cors = require('cors');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 //     res.setHeader('Access-Control-Allow-Credentials', true);
 //     next();
 //   });
-
+wsService(app);
+app.use(express.static(path.join(__dirname, "resources/images")))
 initRoutes(app);
 
 // catch 404 and forward to error handler

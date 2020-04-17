@@ -9,10 +9,12 @@
     "dependencies": {
         "angular-linky": "^1.2.2",
         "angular-sanitize": "^1.7.9",
+        "angular-notifier": "^6.0.1",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
+        "express-ws": "^4.0.0",
         "install": "^0.13.0",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.9.7",

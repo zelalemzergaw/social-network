@@ -4,7 +4,9 @@ const
     fs = require('fs'),
     util = require('util'),
     stopWordPath = path.join(__dirname, '..', '..', 'resources/stop-words/stopWords.json'),
-    { User, Post, Ad } = require(path.join(__dirname, '..', '..', 'models'));
+    { User, Post, Ad } = require(path.join(__dirname, '..', '..', 'models')),
+    notificationService = require('../notification'),
+    systemService = require("../system");
 
 
 
@@ -13,17 +15,33 @@ async function getAllPosts() {
     //console.log("test1"); 
 
 }
-async function createPost(userId, data) {
-
-    //const photopost = await user
+async function createPost(userId, data, app) {
     const post = new Post({
-        title: data.title,
+        title: "Post",
         description: data.description,
-        images: data.image,
+        images: data.images,
         postedBy: userId,
 
     });
-    await post.save();
+    let result;
+    let review = await systemService.notSafeForPost(data.description);
+    console.log("REVIEW RESULT", review);
+    // if(review) {
+    //     post.status = "onhold";
+    //     result = await post.save();
+    //     await notificationService.badPostNotification(userId, result, app);
+        
+    // }else {
+    //     result = await post.save();
+    //     await notificationService.newPostNotification(userId, result, app);
+
+    // }
+    result = await post.save();
+    await notificationService.newPostNotification(userId, result, app);
+
+    
+    
+    return new ApiResponse(200, "success", result);
 }
 
 async function updatePostGet(id) {
@@ -53,18 +71,45 @@ async function getPost(p_id) {
 }
 
 
-async function createComment(p_id, uId, data) {
-    //console.log('update working......');
-    await Post.updateOne({ _id: p_id }, {
+async function addComment(id, postId, data, app) {
+    await Post.updateOne({ _id: postId }, {
         $push: {
             comments: {
-
                 text: data.text,
-                commentedBy: uId
-
+                commentedBy: id
             }
         }
     });
+    
+    await notificationService.commentNotification(id, postId, app);
+    return new ApiResponse(200, "success", {});
+
+}
+
+async function likePost(id, postId, data, app) {
+
+    await Post.updateOne({ _id: postId }, {
+        $push: {
+            likes: {
+                likedBy: id
+            }
+        }
+    });
+    await notificationService.likeNotification(id, postId, app);
+    return new ApiResponse(200, "success", {});
+
+}
+
+async function unLikePost(id, postId) {
+    console.log("UNLIKE")
+    await Post.updateOne({ _id: postId }, {
+        $pull: {
+            likes: {
+                likedBy: id
+            }
+        }
+    });
+    return new ApiResponse(200, "success", {});
 
 }
 
@@ -90,8 +135,10 @@ async function deleteComment(params) {
     });
 }
 
-function followUser(params) {
 
+async function changeProfilePic(id, pic) {
+    await User.updateOne({_id: id}, { photo: pic});
+    return new ApiResponse(200, 'success', {});
 }
 
 async function updateUser(id, data) {
@@ -109,6 +156,11 @@ async function updateUser(id, data) {
 }
 async function getUserById(id) {
     let result = await User.findById({ _id: id });
+    return new ApiResponse(200, "success", result);
+}
+
+async function getAllUsers() {
+    let result = await User.find();
     return new ApiResponse(200, "success", result);
 }
 
@@ -179,12 +231,31 @@ async function updateUserAdvt(id, update) {
  * @param {is action click into the follow button} 
  */
 
-async function followUser(id, uId) {
+
+ async function getFollowers(id) {
+    let user = await User.findById({_id: id});
+    let followers = user.followers.map(f => f.followerID);
+    let myFollowers = await User.find({_id: {$in: followers}});
+    
+    return new ApiResponse(200, "success", myFollowers);
+    
+ } 
+
+ async function getFollowings(id) {
+     console.log("get followings")
+    let user = await User.findById({_id: id});
+    let followings = user.following.map(f => f.followerID);
+    console.log(user, followings);
+    let Myfollowings = await User.find({_id: {$in: followings}});
+    
+    return new ApiResponse(200, "success", Myfollowings);
+    
+ } 
+async function followUser(id,uId, app) {
     await User.updateOne({ _id: id }, {
         $addToSet: {
             following: {
                 followerID: uId
-
             }
         }
     })
@@ -197,6 +268,9 @@ async function followUser(id, uId) {
             }
         }
     });
+  await  notificationService.followNotification(id, uId, app)
+
+    return new ApiResponse(200, "success", {});
 }
 
 /**
@@ -205,21 +279,22 @@ async function followUser(id, uId) {
  * @param {is action click into the follow button} 
  */
 
-async function unFollowerUser(id, uId) {
-    await User.findOneUpdate({ _id: id }, {
-        $pull: {
-            following: {
-                followingID: id
-            }
-        }
+
+async function unFollowUser(id,uId){
+    let u1 = await User.findById({_id: id});
+    let u2 = await User.findById({_id: uId});
+    let following = u1.following.filter(f => f.followerID != uId);
+    let followers = u1.followers.filter(f => f.followerID != id);
+
+    await User.updateOne({_id:id},
+        {
+        $set:{  following: following}
+    });
+    await User.updateOne({_id:uId},{
+        $set:{ followers: followers}
     })
-    await User.findOneUpdate({ _id: uId }, {
-        $pull: {
-            followers: {
-                followerID: uId
-            }
-        }
-    })
+
+    return new ApiResponse(200, "success", {});
 }
 
 /**
@@ -230,6 +305,29 @@ async function unFollowerUser(id, uId) {
 
 async function getFollers(userId) {
     await User.findById({ _id: userId });
+
+async function _getUser(userId){
+     return await User.findById({_id: userId});
+}
+
+async function fetchFeed(userId) {
+    let user = await _getUser(userId);
+    let followings = user.following;
+    followings = followings.map(f => f.followerID);
+    followings.push(userId);
+    let result = await Post.find({postedBy: { $in: followings}})
+                           .populate("postedBy")
+                           .populate("comments.commentedBy")
+                           .sort({ createdAt: "desc"});
+    return new ApiResponse(200, "success", result);
+}
+
+async function getPosts(userId) {
+    let result = await Post.find({postedBy: userId})
+                           .populate("comments.commentedBy")
+                           .sort({ createdAt: "desc"});
+    return new ApiResponse(200, "success", result);
+}
 
 }
 
@@ -251,7 +349,9 @@ module.exports = {
     createPost,
     updatePost,
     deletePost,
-    createComment,
+    addComment,
+    likePost,
+    unLikePost,
     updateComment,
     deleteComment,
     followUser,
@@ -262,10 +362,15 @@ module.exports = {
     getUserById,
     getSearchResults,
     updateUserAdvt,
-    followUser,
-    unFollowerUser,
+    unFollowUser,
     getFollowing,
     getFollers,
     _getUserById
-
+    getAllUsers,
+    fetchFeed,
+    getPosts,
+    getFollowers,
+    getFollowings,
+    changeProfilePic
+    
 }

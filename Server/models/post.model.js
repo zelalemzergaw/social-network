@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
-        unique: true,
-        required: true,
-        trim: true
+        default: "Post"
     },
     description: {
         type: String,
@@ -25,7 +23,9 @@ const postSchema = new mongoose.Schema({
         commentedBy: {
             type: mongoose.Types.ObjectId,
             ref: 'User'
-        }
+        },
+        createdAt : { type : Date, default: Date.now }
+        
     }],
     likes: [{
         likedBy: {
@@ -35,7 +35,8 @@ const postSchema = new mongoose.Schema({
 
     }],
     stuatus: {
-        type: String
+        type: String,
+        default: "ok"
     },
 
 }, { timestamps: true });
