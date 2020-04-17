@@ -17,18 +17,18 @@
               <!-- <h5 class="text-on-back">03</h5> -->
             </div>
             <div class="card-body">
-              <form>
+              <form [formGroup]="changeProfileForm" (ngSubmit)="onSubmit()">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> First name </label>
-                      <input class="form-control" type="text" value="Mike" />
+                      <input formControlName="firstname" class="form-control" type="text" value="Mike" />
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> Last name </label>
-                      <input
+                      <input formControlName="lastname"
                         class="form-control"
                         placeholder="mike"
                         type="text"
@@ -40,7 +40,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> Birthdate </label>
-                      <input type="text"
+                      <input type="text" formControlName="birthdate"
                         bsDatepicker
                          placeholder="02/03/2020"
                          class="form-control">
@@ -49,7 +49,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> Email address </label>
-                      <input
+                      <input formControlName="email"
                         class="form-control"
                         placeholder="mike@email.com"
                         type="email"
@@ -61,7 +61,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label> Address </label>
-                      <input
+                      <input formControlName="location"
                         class="form-control"
                         placeholder="Ethiopia, Addis Ababa"
                         type="text"
