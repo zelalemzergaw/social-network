@@ -15,6 +15,9 @@ export class AuthenticationService {
 
     constructor(private http: HttpClient) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if(this.currentUser) {
+            
+        }
     }
 
     public getCurrentUser(): User {
@@ -39,6 +42,15 @@ export class AuthenticationService {
                 return response.result;
             }));
     }
+
+    forgotPassword(email) {
+           return this.http.post<ApiResponse>(environment.API_URL + "/api/auth/forgot-password", {email: email});
+    }
+
+    newPassword(data) {
+        console.log("okay")
+        return this.http.post<ApiResponse>(environment.API_URL + "/api/auth/reset-password", data);
+ }
 
     logout() {
         // remove user from local storage to log user out

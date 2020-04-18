@@ -49,6 +49,8 @@ import { PeopleComponent } from './user/user-home/explore/people/people.componen
 import { MyPostComponent } from './user/user-home/explore/my-post/my-post.component';
 import { FollowersComponent } from './user/user-home/explore/followers/followers.component';
 import { FollowingsComponent } from './user/user-home/explore/followings/followings.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { NewPasswordComponent } from './new-password/new-password.component';
 
 @NgModule({
   imports: [
@@ -99,7 +101,9 @@ import { FollowingsComponent } from './user/user-home/explore/followings/followi
     PeopleComponent,
     MyPostComponent,
     FollowersComponent,
-    FollowingsComponent
+    FollowingsComponent,
+    ForgotPasswordComponent,
+    NewPasswordComponent
   ],
   exports: [
     IndexComponent,
