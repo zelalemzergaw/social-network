@@ -19,7 +19,7 @@ updateBadWords(allBwords:Array<String>){
   return this.http.post<ApiResponse>(environment.API_URL+'/api/admin/update-bad-word',allBwords);
 
 }
-addBadWord(newBadword:String){
+addBadWord(newBadword){
   return this.http.post<ApiResponse>(environment.API_URL+'/api/admin/add-bad-word',newBadword); 
 }
 

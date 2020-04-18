@@ -13,6 +13,7 @@ import { first } from 'rxjs/operators';
 export class LeftComponent implements OnInit {
   currentUser: User;
   url = "";
+  public searchResults:any;
   public uploader: FileUploader;
   private hasDragOver = false;
   constructor(private userService: UserService, private authService: AuthenticationService) {
@@ -42,6 +43,12 @@ export class LeftComponent implements OnInit {
    }
    public fileOver(e: any): void {
     this.hasDragOver = e;
+  }
+  searchPost(textToSearch){
+    this.userService.searchPosts(textToSearch).pipe(first())
+                                              .subscribe(res=>{
+                                                this.searchResults = res.result;
+                                              });
   }
   ngOnInit(): void {
   }

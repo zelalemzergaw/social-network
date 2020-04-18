@@ -32,19 +32,20 @@ export class AdminBadwordComponent implements OnInit {
                                   console.log(this.allBwords)
           });
  }
- onSubmit(){
+ onAddNewBadWord(){
   this.submitted = true;
   if(this.badWordForm.invalid) return;
   this.adminService.addBadWord(this.badWordForm.value)
                   .pipe(first())
                   .subscribe(
                     data=>{
+                      console.log(data.result);
                       console.log(data)
                       if(data.status ===401){
                         this.error = data.message;
                       }
                       else{
-                        this.allBwords.push(data.result.word);
+                        this.allBwords = data.result.badwords
                       }
 
                     }

@@ -13,4 +13,5 @@ export class User {
   following: any[];
   photo: any;
   notifications: any[];
+  email: any;
 }

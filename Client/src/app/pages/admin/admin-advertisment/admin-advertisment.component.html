@@ -59,11 +59,63 @@
         </div>
     </div>
     <div class="card-footer row ">
-        <p class="col-sm-6 ">
+        <!-- Modal -->
+        <div>
+            <div class="row" id="modals">
+                <div class="col-md-4">
+                    <button class="btn btn-success" data-target="#myModal2" (click)="myModal2.show()">
+                    Edit
+                  </button>
+                </div>
+            </div>
+
+            <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal" id="myModal2" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+
+                            <div class="text-center text-muted mb-4 mt-3">
+                                <small> Edit Advertisement</small>
+                            </div>
+                            <form role="form">
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative" [ngClass]="{'input-group-focus':focus1===true}">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" (focus)="focus1=true" (blur)="focus1=false"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative" [ngClass]="{'input-group-focus':focus2===true}">
+                                        <input class="form-control" placeholder="Password" type="password" (focus)="focus2=true" (blur)="focus2=false" />
+                                    </div>
+                                </div>
+                                <div class="form-check mt-3">
+                                    <label class="form-check-label">
+                            <input
+                              checked="checked"
+                              class="form-check-input"
+                              type="checkbox"
+                            />
+            
+                            <span class="form-check-sign"> </span> Remember me!
+                          </label>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary my-4" type="button">
+                            Sign in
+                          </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <p class="col-sm-6 ">
             <button class="btn btn-primary " name="editAdvert " (click)="editThisAdvert(advert._id) ">Edit</button>
         </p>
         <p class="col-sm-6 ">
             <button class="btn btn-primary " name="deleteAdvert " style="float:right; " (click)="deleteThisAdvert(arrayIndex) ">Delete</button>
-        </p>
+        </p> -->
     </div>
 </div>

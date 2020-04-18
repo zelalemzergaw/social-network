@@ -1,41 +1,41 @@
 <div class="left-container">
-  <div class="search">
-       <form _ngcontent-amm-c10="" class=" ng-untouched ng-pristine ng-valid" novalidate="">
-         <div _ngcontent-amm-c10="" class="form-group">
-           <input _ngcontent-amm-c10="" class="form-control" placeholder="Search" type="text">
-         </div>
-       </form>
-  </div>
-  <div class="card  profile">
-      <div class="profile-picture">
-        <img *ngIf="url" width=300 height=300 src="{{url}}" />
-        <label  for="uploader-input" ng2FileDrop [ngClass]="{'drag-over': hasDragOver}" (fileOver)="fileOver($event)" [uploader]="uploader">
+    <div class="search">
+        <form _ngcontent-amm-c10="" class=" ng-untouched ng-pristine ng-valid" novalidate="">
+            <div _ngcontent-amm-c10="" class="form-group">
+                <input _ngcontent-amm-c10="" (keyup.enter)="searchPost($event.target.value)" class="form-control" placeholder="Search" type="text">
+            </div>
+        </form>
+    </div>
+    <div class="card  profile">
+        <div class="profile-picture">
+            <img *ngIf="url" width=300 height=300 src="{{url}}" />
+            <label for="uploader-input" ng2FileDrop [ngClass]="{'drag-over': hasDragOver}" (fileOver)="fileOver($event)" [uploader]="uploader">
           <div style="cursor: pointer;" class="infotext"><span *ngIf="!url" >Click to upload</span></div>
         </label>
-        <input  type="file" ng2FileSelect [uploader]="uploader" id="uploader-input" style="display:none" />
-      </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <h4 class="username">{{ currentUser.username}}</h4>
-          <!-- <hr class="line-primary" /> -->
-          <span> California </span>
+            <input type="file" ng2FileSelect [uploader]="uploader" id="uploader-input" style="display:none" />
         </div>
-      </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h4 class="username">{{ currentUser.username}}</h4>
+                    <!-- <hr class="line-primary" /> -->
+                    <span> California </span>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
     <div>
-      <nav class="nav flex-column">
-        <a class="nav-link active" href="#" [routerLink]="['']">
-          <i class="tim-icons icon-bank" > </i>Home</a>
-        <a class="nav-link" href="#" [routerLink]="['explore']">
-          <i class="tim-icons icon-world"> </i>Explore
-        </a>
-        <a  *ngIf="currentUser.role === 'ADMIN'" class="nav-link" href="#" routerLink="/admin">
-          <i class="tim-icons icon-world"> </i>Admin panel
-        </a>
-      </nav>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="#" [routerLink]="['']">
+                <i class="tim-icons icon-bank"> </i>Home</a>
+            <a class="nav-link" href="#" [routerLink]="['explore']">
+                <i class="tim-icons icon-world"> </i>Explore
+            </a>
+            <a *ngIf="currentUser.role === 'ADMIN'" class="nav-link" href="#" routerLink="/admin">
+                <i class="tim-icons icon-world"> </i>Admin panel
+            </a>
+        </nav>
     </div>
-  
-  
+
+
 </div>

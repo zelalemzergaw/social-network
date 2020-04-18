@@ -24,11 +24,9 @@ export class UserService {
   
 
   constructor(private http: HttpClient, private authService: AuthenticationService) { 
-    this.connect();
-    console.log("MOTHER FUCKER", this.authService.getCurrentUser());
   }
 
-  private connect() {
+  public connect() {
       this.socket = new WebSocket(environment.API_SOCKET_URL);
       this.socket.onopen = (event) => {
           this.socket.send(JSON.stringify({token: this.getCurrrentUser().access_token}));
@@ -53,9 +51,12 @@ export class UserService {
   setCurrentUser(user:User) {
     this.currentUser = user;
     let c = JSON.parse(localStorage.getItem('currentUser'));
-    user.access_token = c.access_token;
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    this.currentUser = user;
+    if(user) {
+      user.access_token = c.access_token;
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.currentUser = user;
+    }
+    
   }
   getCurrrentUser() {
     return this.currentUser;
@@ -109,6 +110,13 @@ export class UserService {
 
   changeProfilePic(pic) {
     return this.http.post<ApiResponse>(environment.API_URL + "/api/user/change-pic", {pic: pic});
+  }
+  searchPosts(searchThis){
+    return this.http.post<ApiResponse>(environment.API_URL+"/api/user/search-posts", {search: searchThis})
+  }
+
+  updateUser(data) {
+    return this.http.post<ApiResponse>(environment.API_URL + "/api/user/update-user", data);
   }
 
 

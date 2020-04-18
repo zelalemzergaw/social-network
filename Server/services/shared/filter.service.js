@@ -1,12 +1,23 @@
 const fs = require('fs'),
     path = require('path'),
-    util = require('util'),
-    { Badword } = require(path.join(__dirname, '..', '..', 'models'));
-
+    util = require('util');
 
 module.exports = (() => {
     let listOfBadwords;
+    let stopWords;
     const bad_word_path = path.join(__dirname, '..', '..', '/resources/bad_word', 'badWord.json');
+    const stop_word_path = path.join(__dirname, '..', '..', 'resources/stop-words/stopWords.json');
+    /**
+     * fetch all back words
+     */
+    async function getStopWords() {
+        if (stopWords === undefined) {
+            const readFile = util.promisify(fs.readFile);
+            const list = await readFile(stop_word_path, 'utf-8');
+            stopWords = JSON.parse(list);
+        }
+        return stopWords.stopwords;
+    }
     /**
      * gets and returns list of badwords 
      * First time from file and for subsequent requests from memory
@@ -64,6 +75,7 @@ module.exports = (() => {
     }
 
     getBadWordList();
+    getStopWords();
     /**
      * Saves to file 
      * @param {data to be saved (JSON file of bad word)} data 
@@ -78,31 +90,10 @@ module.exports = (() => {
         addNewBadWord,
         getBadWordList,
         updateBadWordList,
-        removeBadWord
+        removeBadWord,
+        getStopWords
 
     };
 
 
 })();
-
-// async function getAllBadWords() {
-//     return await Badword.find();
-// }
-
-// async function addBadWord(newBadWord) {
-//     console.log('IN BAD WORD SERVICE', newBadWord)
-//     const _newBadWord = new Badword({
-//         word: newBadWord
-//     });
-//     return await _newBadWord.save();
-// }
-
-// async function deleteBadWord(badWord_id) {
-//     return await Badword.findByIdAndRemove({ _id: badWord_id });
-// }
-// module.exports = {
-//     getAllBadWords,
-//     addBadWord,
-//     deleteBadWord
-
-// }

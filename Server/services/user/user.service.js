@@ -30,7 +30,7 @@ async function createPost(userId, data, app) {
     //     post.status = "onhold";
     //     result = await post.save();
     //     await notificationService.badPostNotification(userId, result, app);
-        
+
     // }else {
     //     result = await post.save();
     //     await notificationService.newPostNotification(userId, result, app);
@@ -39,8 +39,8 @@ async function createPost(userId, data, app) {
     result = await post.save();
     await notificationService.newPostNotification(userId, result, app);
 
-    
-    
+
+
     return new ApiResponse(200, "success", result);
 }
 
@@ -80,7 +80,7 @@ async function addComment(id, postId, data, app) {
             }
         }
     });
-    
+
     await notificationService.commentNotification(id, postId, app);
     return new ApiResponse(200, "success", {});
 
@@ -137,7 +137,7 @@ async function deleteComment(params) {
 
 
 async function changeProfilePic(id, pic) {
-    await User.updateOne({_id: id}, { photo: pic});
+    await User.updateOne({ _id: id }, { photo: pic });
     return new ApiResponse(200, 'success', {});
 }
 
@@ -152,6 +152,7 @@ async function updateUser(id, data) {
         }
 
     });
+    return new ApiResponse(200, 'success', {});
 
 }
 async function getUserById(id) {
@@ -232,26 +233,26 @@ async function updateUserAdvt(id, update) {
  */
 
 
- async function getFollowers(id) {
-    let user = await User.findById({_id: id});
+async function getFollowers(id) {
+    let user = await User.findById({ _id: id });
     let followers = user.followers.map(f => f.followerID);
-    let myFollowers = await User.find({_id: {$in: followers}});
-    
-    return new ApiResponse(200, "success", myFollowers);
-    
- } 
+    let myFollowers = await User.find({ _id: { $in: followers } });
 
- async function getFollowings(id) {
-     console.log("get followings")
-    let user = await User.findById({_id: id});
+    return new ApiResponse(200, "success", myFollowers);
+
+}
+
+async function getFollowings(id) {
+    console.log("get followings")
+    let user = await User.findById({ _id: id });
     let followings = user.following.map(f => f.followerID);
     console.log(user, followings);
-    let Myfollowings = await User.find({_id: {$in: followings}});
-    
+    let Myfollowings = await User.find({ _id: { $in: followings } });
+
     return new ApiResponse(200, "success", Myfollowings);
-    
- } 
-async function followUser(id,uId, app) {
+
+}
+async function followUser(id, uId, app) {
     await User.updateOne({ _id: id }, {
         $addToSet: {
             following: {
@@ -268,7 +269,7 @@ async function followUser(id,uId, app) {
             }
         }
     });
-  await  notificationService.followNotification(id, uId, app)
+    await notificationService.followNotification(id, uId, app)
 
     return new ApiResponse(200, "success", {});
 }
@@ -280,18 +281,17 @@ async function followUser(id,uId, app) {
  */
 
 
-async function unFollowUser(id,uId){
-    let u1 = await User.findById({_id: id});
-    let u2 = await User.findById({_id: uId});
+async function unFollowUser(id, uId) {
+    let u1 = await User.findById({ _id: id });
+    let u2 = await User.findById({ _id: uId });
     let following = u1.following.filter(f => f.followerID != uId);
-    let followers = u1.followers.filter(f => f.followerID != id);
+    let followers = u2.followers.filter(f => f.followerID != id);
 
-    await User.updateOne({_id:id},
-        {
-        $set:{  following: following}
+    await User.updateOne({ _id: id }, {
+        $set: { following: following }
     });
-    await User.updateOne({_id:uId},{
-        $set:{ followers: followers}
+    await User.updateOne({ _id: uId }, {
+        $set: { followers: followers }
     })
 
     return new ApiResponse(200, "success", {});
@@ -303,11 +303,9 @@ async function unFollowUser(id,uId){
  * @param {is action click into the follow button} 
  */
 
-async function getFollers(userId) {
-    await User.findById({ _id: userId });
 
-async function _getUser(userId){
-     return await User.findById({_id: userId});
+async function _getUser(userId) {
+    return await User.findById({ _id: userId });
 }
 
 async function fetchFeed(userId) {
@@ -315,34 +313,27 @@ async function fetchFeed(userId) {
     let followings = user.following;
     followings = followings.map(f => f.followerID);
     followings.push(userId);
-    let result = await Post.find({postedBy: { $in: followings}})
-                           .populate("postedBy")
-                           .populate("comments.commentedBy")
-                           .sort({ createdAt: "desc"});
+    let result = await Post.find({ postedBy: { $in: followings } })
+        .populate("postedBy")
+        .populate("comments.commentedBy")
+        .sort({ createdAt: "desc" });
     return new ApiResponse(200, "success", result);
 }
 
 async function getPosts(userId) {
-    let result = await Post.find({postedBy: userId})
-                           .populate("comments.commentedBy")
-                           .sort({ createdAt: "desc"});
+    let result = await Post.find({ postedBy: userId })
+        .populate("comments.commentedBy")
+        .sort({ createdAt: "desc" });
     return new ApiResponse(200, "success", result);
 }
 
-}
-
-/**
- * 
- * @param {is the id of the user who is making the get followering } this_User_id 
- * @param {is action click into the follow button} 
- */
-
-async function getFollowing(id) {
-    await User.findById({ _id: id });
+async function searchAllPosts(searchThis) {
+    let result = await systemService.getSearchResults(searchThis);
+    return new ApiResponse(200, "success", result);
 }
 
 async function _getUserById(id) {
-    return await User.findById(id);
+    return await User.findById({_id:id});
 }
 
 module.exports = {
@@ -363,14 +354,14 @@ module.exports = {
     getSearchResults,
     updateUserAdvt,
     unFollowUser,
-    getFollowing,
-    getFollers,
     _getUserById,
     getAllUsers,
-    fetchFeed,
-    getPosts,
     getFollowers,
     getFollowings,
-    changeProfilePic
-    
+    changeProfilePic,
+    fetchFeed,
+    getPosts,
+    searchAllPosts,
+    updateUser
+
 }

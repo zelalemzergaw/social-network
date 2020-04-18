@@ -18,7 +18,8 @@ export class UserHomeComponent implements OnInit {
     this.userService.getUserById(this.currentUser._id).pipe(first())
         .subscribe(user => {
           this.userService.setCurrentUser(user.result);
-        })
+        });
+    this.userService.connect();
   }
 
 }
