@@ -333,7 +333,7 @@ async function unFollowUser(id, uId) {
 
 
 async function _getUserById(id) {
-    return await User.findById(id);
+    return await User.findById({_id:id});
 }
 
 module.exports = {

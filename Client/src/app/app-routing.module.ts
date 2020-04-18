@@ -17,10 +17,17 @@ import { UserFeedComponent } from './pages/user/user-home/user-feed/user-feed.co
 import { ProfileComponent } from './pages/user/user-home/profile/profile.component';
 import { ExploreComponent } from './pages/user/user-home/explore/explore.component';
 import { AuthGuard } from "./guards";
-import {AdminHomeComponent} from './pages/admin/admin-home/admin-home.component';
+import { AdminHomeComponent} from './pages/admin/admin-home/admin-home.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { NewPasswordComponent } from './pages/new-password/new-password.component';
+// this.route.snapshot.paramMap.get("token")
 import { Role } from './models';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor, ErrorInterceptor } from './util';
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
+  { path: "reset-password",component: ForgotPasswordComponent },
+  { path: "new-password/:token", component: NewPasswordComponent },
   {
      path: "home",
      component: UserHomeComponent,
@@ -54,10 +61,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes, {
-      useHash: true
-    })
+    RouterModule.forRoot(routes)
   ],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   exports: []
 })
 export class AppRoutingModule {}

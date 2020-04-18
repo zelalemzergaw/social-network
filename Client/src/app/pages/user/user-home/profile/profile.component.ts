@@ -58,6 +58,7 @@ export class ProfileComponent implements OnInit {
               this.router.navigate(['/']);
             }
             this.userService.setCurrentUser(this.user);
+
            
           },
           error => {
@@ -69,6 +70,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.getUserById(this.user._id).subscribe(res => {
+      this.user = res.result;
+    })
   }
 
 }

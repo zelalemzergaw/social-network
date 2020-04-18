@@ -6,10 +6,9 @@ const
 exports.register =  async (req, res, next) => {
     try{
         let response = await authService.signup(req.body);
-        console.log(response, "OOOOO")
         res.status(response.status).json(response);
     }catch(err) {
-        res.status(500).json(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
     }
 
 }
@@ -22,21 +21,28 @@ exports.login = async (req, res, next) => {
     }
 }
 
-exports.forgotPassword = (req, res, next) => {
-    if (!req.body.email) {
-        return res
-        .status(500)
-        .json({ message: 'Email is required' });
+exports.forgotPassword = async (req, res, next) => {
+    try{
+        if(!req.body.email) {
+            res.status(500).json(new ApiResponse(500, 'error', {err: "Email required"}));
         }
-    authService.forgotPassword(req.body.email).then(r => {
-        res.json({message: "Reset email has sent to you"});
-    }).catch(err => res.send(err));
+       let response  = await authService.forgotPassword(req.body.email);
+       res.status(response.status).json(response);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(501, 'error', err));
+    }
     
 }
 
-exports.resetPassword  = (req, res, next) => {
-     authService.resetPassword(req.body.token, req.body.newPassword).then(r => {
-         res.json({message: "You have successfully rested your password"});
-     }).catch(err => res.send(err));
+exports.resetPassword  = async (req, res, next) => {
+    try{
+       let response= await authService.resetPassword(req.body.token, req.body.password);
+       res.status(response.status).json(response);
+    }catch(err) {
+        console.log(err);
+        res.status(500).json(new ApiResponse(500, 'error', err));
+    }
 }
 
