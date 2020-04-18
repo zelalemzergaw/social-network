@@ -9,6 +9,7 @@
             <textarea formControlName="advertisementDescriptionTextArea" class="form-control" name="advertisementDescriptionTextArea" aria-label="With textarea" placeholder="Advert description here...." type="text " (focus)="focus=true" (blur)="focus=false"></textarea>
         </div>
         <div>
+
             <image-upload url=" http://localhost:3000/api/uploads/profile-image " [max]="2 " [extensions]="[ 'jpeg', 'png'] " [buttonCaption]=" 'Browse' " [style]="customStyle " (uploadFinished)="onUploadFinished($event) ">
             </image-upload>
         </div>
