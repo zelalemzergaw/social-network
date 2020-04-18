@@ -26,16 +26,8 @@ async function createPost(userId, data, app) {
     let result;
     let review = await systemService.notSafeForPost(data.description);
     console.log("REVIEW RESULT", review);
-    // if(review) {
-    //     post.status = "onhold";
-    //     result = await post.save();
-    //     await notificationService.badPostNotification(userId, result, app);
 
-    // }else {
-    //     result = await post.save();
-    //     await notificationService.newPostNotification(userId, result, app);
 
-    // }
     result = await post.save();
     await notificationService.newPostNotification(userId, result, app);
 
@@ -51,12 +43,12 @@ async function updatePostGet(id) {
 }
 
 async function updatePost(data) {
-    //console.log('update working......');
+
     await Post.updateOne({ _id: data._id }, {
         $set: { title: data.title, description: data.description, images: data.image }
 
     });
-
+    console.log('update working......');
 }
 
 async function deletePost(pId) {
@@ -68,6 +60,7 @@ async function deletePost(pId) {
 
 async function getPost(p_id) {
     return await Post.findById(p_id);
+    console.log('checkup working......');
 }
 
 
@@ -287,10 +280,9 @@ async function unFollowUser(id, uId) {
     let following = u1.following.filter(f => f.followerID != uId);
     let followers = u2.followers.filter(f => f.followerID != id);
 
-    await User.updateOne({ _id: id },
-        {
-            $set: { following: following }
-        });
+    await User.updateOne({ _id: id }, {
+        $set: { following: following }
+    });
     await User.updateOne({ _id: uId }, {
         $set: { followers: followers }
     })
@@ -305,35 +297,35 @@ async function unFollowUser(id, uId) {
  */
 
 
-    async function _getUser(userId) {
-        return await User.findById({ _id: userId });
-    }
+async function _getUser(userId) {
+    return await User.findById({ _id: userId });
+}
 
-    async function fetchFeed(userId) {
-        let user = await _getUser(userId);
-        let followings = user.following;
-        followings = followings.map(f => f.followerID);
-        followings.push(userId);
-        let result = await Post.find({ postedBy: { $in: followings } })
-            .populate("postedBy")
-            .populate("comments.commentedBy")
-            .sort({ createdAt: "desc" });
-        return new ApiResponse(200, "success", result);
-    }
+async function fetchFeed(userId) {
+    let user = await _getUser(userId);
+    let followings = user.following;
+    followings = followings.map(f => f.followerID);
+    followings.push(userId);
+    let result = await Post.find({ postedBy: { $in: followings } })
+        .populate("postedBy")
+        .populate("comments.commentedBy")
+        .sort({ createdAt: "desc" });
+    return new ApiResponse(200, "success", result);
+}
 
-    async function getPosts(userId) {
-        let result = await Post.find({ postedBy: userId })
-            .populate("comments.commentedBy")
-            .sort({ createdAt: "desc" });
-        return new ApiResponse(200, "success", result);
-    }
+async function getPosts(userId) {
+    let result = await Post.find({ postedBy: userId })
+        .populate("comments.commentedBy")
+        .sort({ createdAt: "desc" });
+    return new ApiResponse(200, "success", result);
+}
 
 
 
 
 
 async function _getUserById(id) {
-    return await User.findById({_id:id});
+    return await User.findById({ _id: id });
 }
 
 module.exports = {
